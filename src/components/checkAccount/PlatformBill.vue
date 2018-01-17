@@ -38,7 +38,7 @@
 			      <el-table-column prop="time"  label="结算时间">  </el-table-column>
 			  </el-table>
 			
-			  <el-pagination class="pagination " background layout="prev, pager, next , jumper"  :current-page.sync="currentPage3" :total="1000" style="float:right;">
+			  <el-pagination class="pagination " background layout="prev, pager, next , jumper"  :current-page.sync="currentPage3" :total="1000" >
 			  </el-pagination>
         </div>
 	</div>

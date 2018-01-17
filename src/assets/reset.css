@@ -14,20 +14,33 @@ html,body,#app,.wrapper{
 }
 body{
     font-family:"Helvetica Neue",Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
+    background: #F5F7FA
+    
 }
+
 a{text-decoration: none}
 
 /*公共样式*/
 .query-form {
-    margin-top: 20px;
+    margin-bottom: 20px;
     padding-top: 25px;
     background-color: #fff;
     text-align: left;
     padding-left: 20px;
 }
 .table {
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     padding-bottom: 100px;
     background: #fff;
 }
 .query_button{text-align: center;}
+.pagination{
+  margin-top: 15px;
+  float:right;
+}
+.BlueColor{color: #409EFF;}
+.RedColor{color: red;}
+.ms-login .login_input input{
+    border:none;
+    border-color: none;
+}

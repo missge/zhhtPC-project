@@ -20,8 +20,8 @@
                             <el-submenu index="1">
                                 <template slot="title">administrator</template>
                                 <el-menu-item index="2-1">返回主页</el-menu-item>
-                                <el-menu-item index="2-2">用户设置</el-menu-item>
-                                <el-menu-item index="2-3">安全退出</el-menu-item>
+                                <el-menu-item  index="2-2">用户设置</el-menu-item>
+                                <el-menu-item  @click="submitForm()" index="2-3">安全退出</el-menu-item>
                             </el-submenu>
                         </el-menu>
                     </el-col>
@@ -30,9 +30,9 @@
             <el-col :span="24" class="main">
                 <el-row class="main_container">
                     <el-col :span="4" class="main_left">
-                        <el-menu  default-active="1"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"
+                        <el-menu   default-active="1"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"
                             background-color="#132347" text-color="#fff" active-text-color="#fff" active-background-color="red">
-                            <el-submenu index="1">
+                           <!--  <el-submenu index="1">
                                 <template slot="title">
                                     <i class="el-icon-menu"></i>
                                     <span>对账结算</span>
@@ -43,31 +43,54 @@
                                             平台账单
                                         </el-menu-item>
                                     </router-link>
-                                    <router-link  @click.native="Go_fun('账户查询')"  to="/SettleRecord">
+                                    <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
                                         <el-menu-item index="1-2">
                                             结算记录 
                                         </el-menu-item>
                                     </router-link>
+                                     <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
+                                        <el-menu-item index="1-3">
+                                            结算记录详情 
+                                        </el-menu-item>
+                                    </router-link>
                                 </el-menu-item-group>
-                            </el-submenu>
+                            </el-submenu> -->
+                            <el-menu-item index="1">
+                              <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
+                                        平台账单
+                                    </router-link>
+                                </span>
+                            </el-menu-item>
                             <el-menu-item index="2">
                               <i class="el-icon-menu"></i>
-                              <span slot="title">导航二</span>
+                                <span slot="title">
+                                    <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
+                                         结算记录
+                                    </router-link>
+                                </span>
                             </el-menu-item>
                             <el-menu-item index="3">
+
                               <i class="el-icon-setting"></i>
-                              <span slot="title">导航三</span>
+                                <span slot="title">
+                                    <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
+                                       结算记录详情
+                                    </router-link>
+                                </span>
+
                             </el-menu-item>
                           </el-menu>
 
                     </el-col>
                     <el-col :span="20" class="main_right content">
-                            <el-breadcrumb separator="/" >
+              <!--           <el-breadcrumb separator="/" >
                             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                             <el-breadcrumb-item>活动管理</el-breadcrumb-item>
                             <el-breadcrumb-item>活动列表</el-breadcrumb-item>
                             <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-                        </el-breadcrumb>
+                        </el-breadcrumb> -->
                          <router-view></router-view>
                 
                   
@@ -112,6 +135,10 @@ export default {
         Go_fun (str,fun_name) {
            
         },
+        submitForm() {
+           this.$router.push('/');
+               
+        }
   }
 }
 </script>
@@ -141,16 +168,11 @@ export default {
 .main_left,.main_right {
     height: 100%;
 }
+.main_left .router-link-active,.main_left a{color: #fff}
 .main_left{
   background: #172850;
 }
-.main_right {
-  background: #EEEEEE;
 
-}
-.el-menu-vertical-demo{
-
-}
 .main_left .el-menu li{text-align: left;}
 .tools>ul>li,.userinfo{
  margin-top:10px;
@@ -161,5 +183,10 @@ export default {
 .content{padding: 25px;}
 
 
-.main_right{overflow: scroll;}
+.main_right{
+  overflow: scroll;
+  padding-bottom: 60px;
+  background: #EEEEEE;
+
+}
 </style>
