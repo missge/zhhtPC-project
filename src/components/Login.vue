@@ -9,7 +9,7 @@
                 <el-col :span="24" class="Login_main">
                     <el-row class="Login_container">
                         <el-col :span="16">
-                            <img  src="./../assets/img/logon_banner.png" >
+                            <img  src="./../assets/img/logon_banner1.png" >
                         </el-col>
                          <el-col :span="8">
                             <div class="login-wrap">

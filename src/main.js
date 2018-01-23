@@ -12,12 +12,15 @@ import ElementUI from 'element-ui'
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true
 Vue.prototype.$axios = axios;
+Vue.prototype.$http = axios
 Vue.use(Vuex)
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
+
