@@ -1,51 +1,51 @@
 <template>
 	 <div class="wrapper">
         <el-row class="container">
-                <el-col :span="24" class="Login_header">  
-                    <div class="login_log">
-                        <img src="./../assets/img/logon_log.png">
-                    </div>
-                </el-col>
-                <el-col :span="24" class="Login_main">
-                    <el-row class="Login_container">
-                        <el-col :span="16">
-                            <img  src="./../assets/img/logon_banner1.png" >
-                        </el-col>
-                         <el-col :span="8">
-                            <div class="login-wrap">
-                                <div class="ms-title">
-                                     <img src="./../assets/img/logon.png" >
-                                </div>
-                                <div class="ms-login">
-                                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
-                                        <el-form-item prop="username" class="login_right">
-                                            <span class="login_icon">
-                                                 <img  src="./../assets/img/logon_icon_1.png" >
-                                            </span>
-                                            <el-input v-model="ruleForm.username" class="login_input" placeholder="username"></el-input>
-                                        </el-form-item>
-                                        <el-form-item prop="password"  class="login_right">
-                                            <span class="login_icon">
-                                                 <img  src="./../assets/img/logon_icon_2.png" >
-                                            </span>
-                                            <el-input type="password" class="login_input"  placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
-                                        </el-form-item>
-                                        <div class="nextLogin">
-                                            <el-checkbox v-model="checked">下次自动登录</el-checkbox>
-                                        </div>
-                                        <div class="login-btn">
-                                            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-                                        </div>
-                                        <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
-                                    </el-form>
-                                </div>
+            <el-col :span="24" class="Login_header">  
+                <div class="login_log">
+                    <img src="./../assets/img/logon_log.png">
+                </div>
+            </el-col>
+            <el-col :span="24" class="Login_main">
+                <el-row class="Login_container">
+                    <el-col :span="16">
+                        <img  src="./../assets/img/logon_banner1.png" >
+                    </el-col>
+                     <el-col :span="8">
+                        <div class="login-wrap">
+                            <div class="ms-title">
+                                 <img src="./../assets/img/logon.png" >
                             </div>
-                        </el-col>
-                    </el-row>
-                </el-col>
-                 <el-col :span="24" class="Login_footer">
-                  &copy; Copyright 2018北京中汇豪泰电子商务有限公司
-                </el-col>
+                            <div class="ms-login">
+                                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+                                    <el-form-item prop="username" class="login_right">
+                                        <span class="login_icon">
+                                             <img  src="./../assets/img/logon_icon_1.png" >
+                                        </span>
+                                        <el-input v-model="ruleForm.username" class="login_input" placeholder="username"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="password"  class="login_right">
+                                        <span class="login_icon">
+                                             <img  src="./../assets/img/logon_icon_2.png" >
+                                        </span>
+                                        <el-input type="password" class="login_input"  placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                                    </el-form-item>
+                                    <div class="nextLogin">
+                                        <el-checkbox v-model="checked">下次自动登录</el-checkbox>
+                                    </div>
+                                    <div class="login-btn">
+                                        <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                                    </div>
+                                    <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+                                </el-form>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-col>
+             <el-col :span="24" class="Login_footer">
+              &copy; Copyright 2018北京中汇豪泰电子商务有限公司
+            </el-col>
         </el-row>
     </div>
 </template>
@@ -53,20 +53,42 @@
 	export default{
 		name: 'Login',
 		data: function(){
+            // var checkAge = (rule, value, callback) => {
+            //     if (!value) {
+            //       return callback(new Error('年龄不能为空'));
+            //     }
+            //     setTimeout(() => {
+            //       if (!Number.isInteger(value)) {
+            //         callback(new Error('请输入数字值'));
+            //       } else {
+            //         if (value < 18) {
+            //           callback(new Error('必须年满18岁'));
+            //         } else {
+            //           callback();
+            //         }
+            //       }
+            //     }, 1000);
+            //  };
             return {
                 checked: false,
                 ruleForm: {
                     username: '',
-                    password: ''
+                    password: '',
+                    age: ''
                 },
+               
                 rules: {
                     username: [
                         { required: true, message: '请输入用户名', trigger: 'blur' }
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
-                    ]
-                }
+                    ],
+                    // age: [
+                    //     { validator: checkAge, trigger: 'blur' }
+                    // ]
+                },
+               
             }
         },
         methods: {

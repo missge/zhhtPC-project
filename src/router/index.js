@@ -9,7 +9,8 @@ import bigImg from '@/components/publicCom/bigImg'
 import SettleRecord from '@/components/checkAccount/SettleRecord'
 import PlatformBill from '@/components/checkAccount/PlatformBill'
 import SettleRecordDetail from '@/components/checkAccount/SettleRecordDetail'
-
+//选品列表
+import ProductSelectList from '@/components/goods/ProductSelectList'
 Vue.use(Router)
 
 export default new Router({
@@ -32,6 +33,11 @@ export default new Router({
 		    	path: '/SettleRecordDetail',
 		    	name: '结算详情',
 				component: SettleRecordDetail,
+		    },
+		    {
+		    	path: '/ProductSelectList',
+				name: '选品列表',
+				component: ProductSelectList,
 		    },
 		   
 		]

@@ -56,7 +56,7 @@
                                 </el-menu-item-group>
                             </el-submenu> -->
                             <el-menu-item index="1">
-                              <i class="el-icon-menu"></i>
+                              <i class="el-icon-setting"></i>
                                 <span slot="title">
                                     <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
                                         平台账单
@@ -71,16 +71,22 @@
                                     </router-link>
                                 </span>
                             </el-menu-item>
-                            <el-menu-item index="3">
-
+                             <el-menu-item index="3">
+                              <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link  @click.native="Go_fun('选品')"  to="/ProductSelectList">
+                                         商品选择
+                                    </router-link>
+                                </span>
+                            </el-menu-item>
+                           <!--  <el-menu-item index="3">
                               <i class="el-icon-setting"></i>
                                 <span slot="title">
                                     <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
                                        结算记录详情
                                     </router-link>
                                 </span>
-
-                            </el-menu-item>
+                            </el-menu-item> -->
                           </el-menu>
 
                     </el-col>
