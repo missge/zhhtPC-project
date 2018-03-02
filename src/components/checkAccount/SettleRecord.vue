@@ -4,15 +4,26 @@
                <el-form-item label="流水号">
                     <el-input v-model="tableList.settId" placeholder="订单号"></el-input>
                </el-form-item>
-               <el-form-item label="申请时间">
-		         	<el-date-picker
+               <!-- <el-form-item label="申请时间"> -->
+		         	<!-- <el-date-picker
 				      v-model="time" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-				    </el-date-picker>
-				</el-form-item>  
+				    </el-date-picker> -->
+			    <span class="demonstration">申请时间</span>
+			    <el-date-picker
+			      v-model="tableList.startTime"
+			      type="datetime"
+			      placeholder="选择开始时间"  value-format="yyyy-MM-dd HH:mm:ss">
+			    </el-date-picker>
+			    <span class="demonstration">--</span>
+			    <el-date-picker
+			      v-model="tableList.endTime"
+			      type="datetime"
+			      placeholder="选择结束时间"  value-format="yyyy-MM-dd HH:mm:ss">
+			    </el-date-picker>
 			    <el-form-item label="状态">
 				     <el-select v-model="tableList.status" placeholder="请选择" >
 					    <el-option
-					      v-for="item in statusOptions"
+					      v-for="item in selectList"
 					      :key="item.value"
 					      :label="item.label"
 					      :value="item.value" >
@@ -21,7 +32,7 @@
 			    </el-form-item>
               	<div class="query_button">
               		<el-form-item>
-	                    <el-button type="primary" @click="getSarch(tableList.settId,time,tableList.status)">查询</el-button>
+	                    <el-button type="primary" @click="getSarch(tableList.settId,tableList.startTime,tableList.endTime,tableList.status)">查询</el-button>
 	                    <el-button  @click="setReset">重置</el-button>
 	               </el-form-item>
               	</div>
@@ -51,6 +62,7 @@
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
+	import { getSelectList} from "../../api/api";
 	export default{
 		name: 'HelloWorld',
 		data () {
@@ -67,119 +79,15 @@
 		        totalCount:0,//页数
 		        time:'',
 		        loading: true,
-
-
+		        type:'settStatus',
+		        selectList:'',
 
 				formInline: {
 					user: '',
 					region: '',
 					name:''
 				},
-				value7: '',
-				test:1,
-				statusOptions: [{
-		          value: '1',
-		          label: '发票待确认'
-		        }, {
-		          value: '付款待确认',
-		          label: '付款待确认'
-		        }, {
-		          value: '待付款',
-		          label: '待付款'
-		        }, {
-		          value: '已核销',
-		          label: '已核销'
-		        }, {
-		          value: '已撤销',
-		          label: '已撤销'
-		        }, {
-		          value: '已驳回',
-		          label: '已驳回'
-		        }],
-		        value: '',
-		        tableData: [{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        },{
-		          date: 'JS17122110052',
-		          name: '美的 家用智能热水壶1.7L 白色',
-		          address: '上海市普陀区金沙江路 1518 弄',
-		          num:'2',
-		          good:'周三',
-		          zmoney:'100',
-		          money:'190',
-		          time:'2009-12-2'		       
-		        }],
-		        currentPage3: 5
+				
 
 			}
 		},
@@ -210,10 +118,13 @@
 	   			// console.log(`当前页: ${val}`);
 	        },
 	        //搜索事件
-			getSarch(settId,time,status){
+			getSarch(settId,startTime,endTime,status){
+				console.log(startTime);
+				console.log(endTime);
+				
 				//开始时间，结束时间
-				this.tableList.startTime=time[0]
-				this.tableList.endTime=time[1]
+				// this.tableList.startTime=time[0]
+				// this.tableList.endTime=time[1]
 				this.tableList.settId=settId
 				this.tableList.status=status
 				this.getTablelist()
@@ -229,13 +140,21 @@
             	//获取settId的值row.settId
             	 console.log(row.settId);
             	 this.$router.push({path:'/SettleRecordDetail',query:{settId:row.settId}})
+            },
+            getSelectList(){
+            	getSelectList({type:this.type}).then((data) => {
+            		this.selectList=data.data
+					console.log(data)
+					this.loading=false
+				}).catch(message => {
+					this.$message.error("请求失败，请联系客服，失败码"+message);
+				    this.loading=false
+				});
             }
 		},
 		mounted(){
-			this.getTablelist()
+			this.getTablelist();
+			this.getSelectList()
 		}
 	}
 </script>
-<style>
-
-</style>

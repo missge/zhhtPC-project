@@ -46,11 +46,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+       'process.env': require('../config/dev.env')
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
+    // new webpack.DefinePlugin({
+        //服务器网址
+       // SERVER_BASE_URL: JSON.stringify("http://wxmall.dealreal.com.cn/wxmallPort/"),
+       // SERVER_CODEBASE_URL: JSON.stringify("https://m.feawin.com"),
+
+    // }),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',

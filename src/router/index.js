@@ -11,6 +11,8 @@ import PlatformBill from '@/components/checkAccount/PlatformBill'
 import SettleRecordDetail from '@/components/checkAccount/SettleRecordDetail'
 //选品列表
 import ProductSelectList from '@/components/goods/ProductSelectList'
+import test from '@/components/test'
+
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,10 @@ export default new Router({
     	path:'/bigImg',
     	name: '结算记录',
 		component: bigImg
+    },{
+    	path:'/test',
+    	name: '测试',
+		component: test
     }
 
 
