@@ -27,3 +27,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 npm install --save js-base64
 npm install --save url-search-params
+npm install --save js-md5  md5加密
+

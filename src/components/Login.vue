@@ -18,20 +18,20 @@
                             </div>
                             <div class="ms-login">
                                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
-                                    <el-form-item prop="username" class="login_right">
+                                    <el-form-item prop="userName" class="login_right">
                                         <span class="login_icon">
-                                             <img  src="./../assets/img/logon_icon_1.png" >
+                                             <img  src="../assets/img/logon_icon_1.png" >
                                         </span>
-                                        <el-input v-model="ruleForm.username" class="login_input" placeholder="username"></el-input>
+                                        <el-input v-model="ruleForm.userName" class="login_input" placeholder="userName"></el-input>
                                     </el-form-item>
-                                    <el-form-item prop="password"  class="login_right">
+                                    <el-form-item prop="passWord"  class="login_right">
                                         <span class="login_icon">
                                              <img  src="./../assets/img/logon_icon_2.png" >
                                         </span>
-                                        <el-input type="password" class="login_input"  placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                                        <el-input type="passWord" class="login_input"  placeholder="passWord" v-model="ruleForm.passWord" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                                     </el-form-item>
                                     <div class="nextLogin">
-                                        <el-checkbox v-model="checked">下次自动登录</el-checkbox>
+                                        <el-checkbox v-model="checked" checked>下次自动登录</el-checkbox>
                                     </div>
                                     <div class="login-btn">
                                         <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
@@ -50,10 +50,35 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue'
+    import router from '@/router'
+    // import md5 from 'js-md5'
+    import { requestLogin } from "../api/api";
 	export default{
 		name: 'Login',
-		data: function(){
-            // var checkAge = (rule, value, callback) => {
+		data(){
+            return {
+                checked: false,
+                ruleForm: {
+                    userName: '',
+                    passWord: '',
+                    // age: ''
+                },
+                rules: {
+                    userName: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' }
+                    ],
+                    passWord: [
+                        { required: true, message: '请输入密码', trigger: 'blur' }
+                    ],
+                    // age: [
+                    //     { validator: checkAge, trigger: 'blur' }
+                    // ]
+                },
+                checked:true
+               
+            }
+             // var checkAge = (rule, value, callback) => {
             //     if (!value) {
             //       return callback(new Error('年龄不能为空'));
             //     }
@@ -69,42 +94,59 @@
             //       }
             //     }, 1000);
             //  };
-            return {
-                checked: false,
-                ruleForm: {
-                    username: '',
-                    password: '',
-                    age: ''
-                },
                
-                rules: {
-                    username: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                    ],
-                    // age: [
-                    //     { validator: checkAge, trigger: 'blur' }
-                    // ]
-                },
-               
-            }
         },
         methods: {
             submitForm(formName) {
-                const self = this;
-                self.$refs[formName].validate((valid) => {
+                // localStorage.setItem('token', 0);
+                // const self = this;
+                this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        console.log(localStorage.getItem('ms_username'))
-                        self.$router.push('/Home');
+                        // this.ruleForm.password=md5(this.ruleForm.password)
+                        this.loading=true
+                        requestLogin(this.ruleForm).then((data) => {
+                            // let token = data.token;
+                           if(data.code==1){
+                                this.$router.push('/PlatformBill');
+                                localStorage.setItem('userName',this.ruleForm.userName);
+                                 console.log(localStorage.getItem('userName'))
+                                 localStorage.setItem("passWord", this.ruleForm.passWord);
+                                  localStorage.setItem('token', 0);
+                                  console.log(localStorage.getItem('token'))
+                           }else{
+                                this.$confirm(data.descript, '提示', {
+                                  confirmButtonText: '确定',
+                                  cancelButtonText: '取消',
+                                  type: 'warning'
+                                }).then(() => {
+                                    this.logining = false;
+                                }).catch(() => {
+                                    this.logining = false;
+                                });
+                           }
+
+                        }).catch(message => {
+                           this.$message.error("请求失败，请联系客服，失败码"+message);
+                           this.loading=false
+                        });
+                        // localStorage.setItem('ms_username',self.ruleForm.username);
+                        // console.log(localStorage.getItem('ms_username'))
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-            }
+            },
+            // login(){
+            //     this.$store.state.setToken=true//改变token状态
+            //     console.log(this.$store.state.setToken)
+            //     let redirect = decodeURIComponent(this.$route.query.redirect || '/'); 
+            //     this.$router.push({
+            //        path: redirect
+            //     })
+            // }
+        },
+        mounted(){
         }
 	}
 </script>

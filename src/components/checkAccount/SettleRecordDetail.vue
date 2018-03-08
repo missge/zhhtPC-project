@@ -5,11 +5,12 @@
                 <div slot="header" class="clearfix">
                     <span>结算单状况 </span>   
                     <span class="GreenColor"><i class="el-icon-success"></i>已核销{{items.status}}</span>
-                    <div class="box-card-rt" >流水号：{{items.settId}}   状态：{{items.status}} </div>
+                    <div class="box-card-rt" >流水号：{{items.settId}}   状态：{{items.statusDesc}} </div>
                 </div>
                  <!-- <div v-for="o in items" :key="items" class="text item"> -->
                 <div class="text item">
-                    订单数： <a href="" class="BlueColor">{{items.ordersQty}} 条</a>
+                    订单数： <span class="BlueColor" v-if="items.status==1||items.status==2||items.status==3||items.status==4" @click="pageJump()">{{items.ordersQty}} 条</span>
+                     <span v-if="items.status==5||items.status==6" >{{items.ordersQty}}条</span>
                 </div>
                 <div class="text item">
                     本期销售总额：{{items.totalAmt}}元
@@ -63,6 +64,8 @@
     import router from '@/router'
     //点击图片变大
     import BigImg from './../publicCom/bigImg.vue';
+    import {getSettDetaills} from "../../api/api";
+
 	export default {
 		name:'SettleRecordDetail',
         data(){
@@ -90,21 +93,20 @@
             },
             //查询信息
              getTablelist(){
-                var url = this.$store.state.localHostUrl +'/mallSettDetails.json'
-                var data= qs.stringify({settId:this.settId})
-                let that= this
-                that.$http.post(url,data,{emulateJSON:true}).then(
-                    function(res){
-                        if(res.data.code===1){
-                            that.detailList=res.data.data.settDetails
-                            that.photoList=res.data.data.photo;
-                        }else{
-                            that.$message.error("请求失败，请联系客服，失败码"+res.data.descript);
-                            that.loading=false
-                        }
-                    }
-                )
+                getSettDetaills({settId:this.settId}).then((data) => {
+                  console.log(data)
+                    this.detailList=data.data.settDetails
+                     this.photoList=data.data.photo;
+                }).catch(message => {
+                    this.$message.error("请求失败，请联系客服，失败码"+message);
+                    this.loading=false
+                })
+                
             },
+            pageJump(){
+                 // this.$router.push({path: "/PlatformBill"});
+                 this.$router.push({path:'/SettleManage',query:{settId:this.settId}})
+            }
         },
         mounted(){
             this.getTablelist()

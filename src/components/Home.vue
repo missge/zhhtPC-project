@@ -8,19 +8,19 @@
                     </el-col>
                     <el-col :span="16" class="tools">
                         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"   background-color="#fff" text-color="#666666"  active-text-color="#1c7ffd">
-                            <el-menu-item index="1">账户结算</el-menu-item>
-                            <el-menu-item index="2">
+                            <el-menu-item index="1" >对账结算</el-menu-item>
+                           <!--  <el-menu-item index="2">
                                  订单管理
                             </el-menu-item>
-                            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">客户管理</a></el-menu-item>
+                            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">客户管理</a></el-menu-item> -->
                         </el-menu>
                     </el-col>
                     <el-col :span="4" class="userinfo">
                        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"   background-color="#fff" text-color="#666666"  active-text-color="#1c7ffd">
                             <el-submenu index="1">
-                                <template slot="title">administrator</template>
-                                <el-menu-item index="2-1">返回主页</el-menu-item>
-                                <el-menu-item  index="2-2">用户设置</el-menu-item>
+                                <template slot="title">{{userName}}</template>
+                            <!--     <el-menu-item index="2-1">返回主页</el-menu-item>
+                                <el-menu-item  index="2-2">用户设置</el-menu-item> -->
                                 <el-menu-item  @click="submitForm()" index="2-3">安全退出</el-menu-item>
                             </el-submenu>
                         </el-menu>
@@ -31,7 +31,7 @@
                 <el-row class="main_container">
                     <el-col :span="4" class="main_left">
                         <el-menu   default-active="1"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"
-                            background-color="#132347" text-color="#fff" active-text-color="#fff" active-background-color="red">
+                            background-color="#132347" text-color="#fff" active-text-color="#fff" >
                            <!--  <el-submenu index="1">
                                 <template slot="title">
                                     <i class="el-icon-menu"></i>
@@ -120,7 +120,7 @@ export default {
       return {
         // tableData: Array(20).fill(item)
         activeIndex: '1',
-      
+        userName:''
      
       }
   },
@@ -141,10 +141,18 @@ export default {
         Go_fun (str,fun_name) {
            
         },
+        getResource(){
+            console.log(localStorage.getItem("userName"))
+            this.userName = localStorage.getItem("userName")
+        },
         submitForm() {
            this.$router.push('/');
-               
+        
+
         }
+  },
+  mounted(){
+       this.getResource()
   }
 }
 </script>
@@ -178,6 +186,7 @@ export default {
 .main_left{
   background: #172850;
 }
+
 
 .main_left .el-menu li{text-align: left;}
 .tools>ul>li,.userinfo{

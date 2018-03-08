@@ -1,6 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
 import URLSearchParams from 'url-search-params';//接口定义了一些实用的方法来处理 URL 的查询字符串。
+export const setToken = 'setToken'
+
 //使用base64和md5
 let Base64 = require('js-base64').Base64
 function getParamValue(key,params){
@@ -17,6 +19,8 @@ function pageJump(url) {
 //webpack.dev.conf.js修改url路径
 // let base = SERVER_BASE_URL;
 let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
+// let base = 'http://10.0.0.25:8088/wxmallPort/'
+
 let loginInstance = axios.create({
     baseURL: base
 });
@@ -28,9 +32,9 @@ function responseFilter(response) {
     }
     switch (status) {
         case 401: {
-            //localStorage.removeItem("token");
-            // pageJump("/login");
-            // return data;
+            // localStorage.removeItem("token");
+            pageJump("/login");
+            return ;
         }
         default: {
             //es6 promise---reject失败
@@ -57,6 +61,11 @@ export const mallId ='123307710000000'
 // ).catch(function(error){
 //     console.log(error)
 // })
+/***************************登录*********************************/
+export const requestLogin = params => {
+    return loginInstance.post(`${base}loginInfo.json`, formData(params)).then(responseFilter);
+
+}
 /***************************平台账单*****************************/
 //查询数据
 export const getOrderBillInfo = params => {
@@ -75,4 +84,12 @@ export const ClickSee = params => {
 // 获取下拉列表
 export const getSelectList = params => {
     return loginInstance.post(`${base}getSelectList.json`,formData(params)).then(responseFilter);
+}
+//查看
+export const getSettDetaills = params => {
+    return loginInstance.post(`${base}mallSettDetails.json`,formData(params)).then(responseFilter);
+}
+//结算管理
+export const getSettleManage = params => {
+    return loginInstance.post(`${base}getBillBySettId.json`,formData(params)).then(responseFilter);
 }

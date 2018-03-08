@@ -46,3 +46,11 @@ a{text-decoration: none}
     border:none;
     border-color: none;
 }
+/*公共样式*/
+.all-classify{
+  height: 40px;
+  background: #fff;
+  font-size: 14px;
+}
+  .all-classify .el-col{text-align: left;padding: 8px 16px;}
+  

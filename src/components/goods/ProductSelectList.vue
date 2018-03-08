@@ -40,8 +40,13 @@
 					<span>价格最高</span>
 				</el-col>
 				<el-col :span='8' class="all-classify-ct">
-					价格：<el-input class="xsmini-input" size='mini' v-model="input" placeholder="请输入内容"></el-input> 元 -
-					<el-input v-model="input" size='mini' class="xsmini-input"  placeholder="请输入内容"></el-input>  元
+					价格：
+					<div class="xsmini-input" >
+						<el-input  size='mini' v-model="input" placeholder="请输入内容"></el-input>
+					</div> 元 -
+					<div class="xsmini-input" >
+					<el-input v-model="input" size='mini'  placeholder="请输入内容"></el-input> 
+					</div> 元
 					 <el-button type="primary" size="mini">确定</el-button>
 
 				</el-col>
@@ -147,13 +152,13 @@
 	}
 </script>
 <style>
-	.all-classify{
+/*	.all-classify{
 		height: 40px;
 		background: #fff;
 		font-size: 14px;
-	}
+	}*/
 	.all-classify-two {background: #fff;padding:0 16px;font-size: 14px;height: 40px;}
-	.all-classify .el-col{text-align: left;padding: 8px 16px;}
+
 	.aboutClassify{text-align: left; background: #fff;padding: 8px 16px;font-size: 14px;  border-bottom: 1px solid #ddd;}
 	.all-classify-lf{
 		text-align: left;
@@ -164,7 +169,7 @@
 		margin-right: 5px;cursor: pointer;
 	}
 	.all-classify-ct{padding:6px 0;}
-	.xsmini-input{width: 50px;text-align: center;}
+	.xsmini-input{width: 50px;text-align: center;display:inline-block;}
 	.all-classify-rt{
 		text-align: right;
 		padding-top: 12px;

@@ -12,7 +12,6 @@ Vue.use(Vuex)
  // var localhostStr='../'
  var localhostStr='http://wxmall.dealreal.com.cn/wxmallPort'
  
-
 const store = new Vuex.Store({
 	state:{
 		localHostUrl: localhostStr,
