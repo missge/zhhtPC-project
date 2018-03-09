@@ -10,7 +10,7 @@ import qs from 'qs'
 Vue.use(Vuex)
  // var localhostStr='http://10.0.0.110:8080/wxmallPort'
  // var localhostStr='../'
- var localhostStr='http://wxmall.dealreal.com.cn/wxmallPort'
+ var localhostStr='http://10.0.0.25:8088/wxmallPort'
  
 const store = new Vuex.Store({
 	state:{

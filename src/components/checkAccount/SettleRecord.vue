@@ -62,7 +62,7 @@
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
-	import { getSelectList} from "../../api/api";
+	import { getSelectList,getMallSettInfo} from "../../api/api";
 	export default{
 		name: 'HelloWorld',
 		data () {
@@ -94,21 +94,29 @@
 		methods:{
 			//获取table列表
 			getTablelist(){
-				var url = this.$store.state.localHostUrl +'/mallSettInfo.json'
-		    	var data= qs.stringify(this.tableList)
-		    	let that= this
-				that.$http.post(url,data,{emulateJSON:true}).then(
-					function(res){
-						if(res.data.code===1){
-							that.tableDatas=res.data.data
-							that.totalCount=res.data.pageInfo.totalCount
-							that.loading=false
-						}else{
-							that.$message.error("请求失败，请联系客服，失败码"+res.data.descript);
-							that.loading=false
-						}
-					}
-				)
+				// var url = this.$store.state.localHostUrl +'/mallSettInfo.json'
+		  //   	let that= this
+				// that.$http.post(url,data,{emulateJSON:true}).then(
+				// 	function(res){
+				// 		if(res.data.code===1){
+				// 			that.tableDatas=res.data.data
+				// 			that.totalCount=res.data.pageInfo.totalCount
+				// 			that.loading=false
+				// 		}else{
+				// 			that.$message.error("请求失败，请联系客服，失败码"+res.data.descript);
+				// 			that.loading=false
+				// 		}
+				// 	}
+				// )
+		    	// var data= qs.stringify(this.tableList)
+				getMallSettInfo(this.tableList).then(data => {
+					this.tableDatas=data.data
+					this.totalCount=data.pageInfo.totalCount
+					this.loading=false
+				}).catch(message => {
+					this.$message.error("请求失败，请联系客服，失败码"+message);
+				    this.loading=false
+				});
 			},
 			//点击哪页触发的时间
 			handleCurrentChange(val) {

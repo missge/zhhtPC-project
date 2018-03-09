@@ -45,7 +45,7 @@
 			<el-col :span='24' >
 				<el-row class="all-classify" >
 					<el-col :span='4' >
-							<span class="">订单数: <span class="RedColor">{{billDetail.orderSum}}</span>元</span>
+							<span class="">订单数: <span class="RedColor">{{billDetail.orderSum}}</span>条</span>
 					</el-col>
 					<el-col :span='4' >
 							<span class="">销售总额: <span class="RedColor">{{billDetail.saleAmt}}</span>元</span>
@@ -96,7 +96,7 @@
 			</el-table>
 			<el-pagination class="pagination " :src="imgSrc"  @current-change="handleCurrentChange" background layout="prev, pager, next , jumper"  :current-page.sync="tableList.pageIndex" :total="totalCount" >
 			</el-pagination>
-			<big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
+			<!-- <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img> -->
         </div>
 	</div>
 </template>
@@ -125,7 +125,7 @@
 		        time:'',
 		        loading: true,
 		        imgSrc:'',
-		        showImg:false,
+		        // showImg:false,
 		        oldStatus:'',
 		        selectList:'',
 		        type:'timeType',
@@ -208,8 +208,10 @@
             GetClickMessage(orderId){
 				ClickSee({orderId:orderId}).then((data) => {
 					this.imgSrc=data.data
-					console.log(this.imgSrc)
-					this.showImg = true;
+					// console.log(this.imgSrc)
+					// this.showImg = true;
+					// window.location.href=this.imgSrc
+					window.open(this.imgSrc);     
 	                // 获取当前图片地址
 	                // this.imgSrc = e.currentTarget.src;
 				}).catch(message => {
@@ -218,9 +220,9 @@
 				});
             },
             //图片显示
-            viewImg(){
-                this.showImg = false;
-            },
+            // viewImg(){
+            //     this.showImg = false;
+            // },
             //导出
 			importFn(mallId,orderId,memName,goodsName,startTime,endTime,oldStatus){
 				var url = `${localHostUrl}exportBill.json?mallId=123307710000000&orderId=${orderId}&memName=${memName}&goodsName=${goodsName}&startTime=${startTime}&endTime=${endTime}&timeType=${oldStatus}`

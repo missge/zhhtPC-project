@@ -18,8 +18,9 @@ function pageJump(url) {
 }
 //webpack.dev.conf.js修改url路径
 // let base = SERVER_BASE_URL;
-let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
-// let base = 'http://10.0.0.25:8088/wxmallPort/'
+// let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
+let base = 'http://10.0.0.25:8088/wxmallPort/'
+
 
 let loginInstance = axios.create({
     baseURL: base
@@ -51,7 +52,9 @@ function formData(param) {
     }
     return data;
 }
-export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
+// export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
+export const localHostUrl='http://10.0.0.25:8088/wxmallPort/'
+
 export const mallId ='123307710000000'
 // 同下面
 // axios.post(url,data,Json).then(
@@ -81,6 +84,10 @@ export const ClickSee = params => {
 //     return loginInstance.post(`${base}exportBill.json`,formData(params)).then(responseFilter);
 // }
 /***************************结算记录*****************************/
+//结算记录列表
+export const getMallSettInfo = params =>{
+     return axios.post(`${base}mallSettInfo.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
 // 获取下拉列表
 export const getSelectList = params => {
     return loginInstance.post(`${base}getSelectList.json`,formData(params)).then(responseFilter);
@@ -92,4 +99,8 @@ export const getSettDetaills = params => {
 //结算管理
 export const getSettleManage = params => {
     return loginInstance.post(`${base}getBillBySettId.json`,formData(params)).then(responseFilter);
+}
+//撤销结算单
+export const setCencelSett = params => {
+    return loginInstance.post(`${base}cancelSett.json`,formData(params)).then(responseFilter);
 }

@@ -4,7 +4,9 @@
             <el-card class="box-card resetbox-card" v-for="(items,key) in detailList" :key='key'>
                 <div slot="header" class="clearfix">
                     <span>结算单状况 </span>   
-                    <span class="GreenColor"><i class="el-icon-success"></i>已核销{{items.status}}</span>
+                    <span class="GreenColor"><i class="el-icon-success"></i>{{items.statusDesc}}
+                        <el-button size="mini" plain type="primary" v-if="statusFlag<=3"  @click="cencelSettFn">撤销</el-button>
+                    </span>
                     <div class="box-card-rt" >流水号：{{items.settId}}   状态：{{items.statusDesc}} </div>
                 </div>
                  <!-- <div v-for="o in items" :key="items" class="text item"> -->
@@ -31,7 +33,9 @@
                  <div class="text item">快递公司：{{items.logistName}} </div>
                 <div class="text item">物流单号：{{items.waybillNo}}  </div>
                 <div class="text item">发票电子版：
-                    <img v-for="(photoItem,index) in photoList" style="width50px;height:50px;" v-if="photoItem.photoType==0" :src="photoItem.photoUrl" @click="clickImg($event)">
+                    <!-- <img v-for="(photoItem,index) in photoList" style="width50px;height:50px;" v-if="photoItem.photoType==0" :src="photoItem.photoUrl" @click="clickImg($event)"> -->
+                    <img v-for="(photoItem,index) in photoList" style="width50px;height:50px;" v-if="photoItem.photoType==0" :src="photoItem.photoUrl" @click="clickImg(photoItem.photoUrl)">
+
                 </div>
             </el-card>
         </el-col>
@@ -45,15 +49,14 @@
                  <div class="text item">账号：{{items.accountNum}} </div>
             </el-card>
         </el-col>
-        
-        <el-col>
+        <el-col v-if="statusFlag==4">
              <el-card class="box-card resetbox-card">
                 <div slot="header" class="clearfix">
                     <span>付款凭证</span>
                 </div>
-                 <img v-for="(photoItem,index) in photoList" style="width50px;height:50px;" v-if="photoItem.photoType==1" :src="photoItem.photoUrl" @click="clickImg($event)">
+                 <img v-for="(photoItem,index) in photoList" style="width50px;height:50px;" v-if="photoItem.photoType==1" :src="photoItem.photoUrl" @click="clickImg(photoItem.photoUrl)">
                     <!-- <img style="width50px;height:50px;" src="./../../assets/img/test.jpg" @click="clickImg($event)"> -->
-                   <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
+                   <!-- <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img> -->
             </el-card>
         </el-col>
     </el-row>
@@ -64,17 +67,19 @@
     import router from '@/router'
     //点击图片变大
     import BigImg from './../publicCom/bigImg.vue';
-    import {getSettDetaills} from "../../api/api";
+    import {getSettDetaills,setCencelSett } from "../../api/api";
 
 	export default {
 		name:'SettleRecordDetail',
         data(){
             return{
-                showImg:false,
+                // showImg:false,
                 imgSrc: '',
                 settId:this.$route.query.settId,
                 detailList:'',
-                photoList:''
+                photoList:'',
+                statusFlag:'',
+                merType:'1'//商户类型 0-供应商 1-商城
             }
         },
         components: {
@@ -82,20 +87,22 @@
         },
         methods: {
             //点击图片变大
-            clickImg(e) {
-                this.showImg = true;
+            clickImg(photoUrl) {
+                  window.open(photoUrl);     
+                // this.showImg = true;
                 // 获取当前图片地址
-                this.imgSrc = e.currentTarget.src;
+                // this.imgSrc = e.currentTarget.src;
             },
             //图片显示
             viewImg(){
-                this.showImg = false;
+                // this.showImg = false;
             },
             //查询信息
              getTablelist(){
                 getSettDetaills({settId:this.settId}).then((data) => {
-                  console.log(data)
                     this.detailList=data.data.settDetails
+                   this.statusFlag = data.data.settDetails[0].status
+
                      this.photoList=data.data.photo;
                 }).catch(message => {
                     this.$message.error("请求失败，请联系客服，失败码"+message);
@@ -106,7 +113,20 @@
             pageJump(){
                  // this.$router.push({path: "/PlatformBill"});
                  this.$router.push({path:'/SettleManage',query:{settId:this.settId}})
-            }
+            },
+            cencelSettFn(){
+                setCencelSett({settId:this.settId,merType:this.merType}).then((data)=>{
+                  console.log(data.code)
+                   if(data.code==1){
+                      alert("撤销成功")
+                      this.$router.push({path:"/SettleRecord"})
+                   }else{
+                     alert("撤销失败")
+                   }
+                })
+              }
+            
+            
         },
         mounted(){
             this.getTablelist()
@@ -122,6 +142,7 @@
     margin-bottom: 18px;
    	text-align: left;
   }
+  .item>.BlueColor{cursor: pointer;}
   .clearfix:before,
   .clearfix:after {
     display: table;

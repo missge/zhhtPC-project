@@ -31,62 +31,62 @@
                 <el-row class="main_container">
                     <el-col :span="4" class="main_left">
                         <el-menu   default-active="1"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"
-                            background-color="#132347" text-color="#fff" active-text-color="#fff" >
-                           <!--  <el-submenu index="1">
-                                <template slot="title">
-                                    <i class="el-icon-menu"></i>
-                                    <span>对账结算</span>
-                                </template>
-                                <el-menu-item-group>
-                                   <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
-                                        <el-menu-item index="1-1"> 
+                            background-color="#132347" text-color="#999999" active-text-color="#ffffff" >
+                                <!--  <el-submenu index="1">
+                                    <template slot="title">
+                                        <i class="el-icon-menu"></i>
+                                        <span>对账结算</span>
+                                    </template>
+                                    <el-menu-item-group>
+                                       <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
+                                            <el-menu-item index="1-1"> 
+                                                平台账单
+                                            </el-menu-item>
+                                        </router-link>
+                                        <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
+                                            <el-menu-item index="1-2">
+                                                结算记录 
+                                            </el-menu-item>
+                                        </router-link>
+                                         <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
+                                            <el-menu-item index="1-3">
+                                                结算记录详情 
+                                            </el-menu-item>
+                                        </router-link>
+                                    </el-menu-item-group>
+                                </el-submenu> -->
+                                <el-menu-item index="1">
+                                  <i class="el-icon-setting"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
                                             平台账单
-                                        </el-menu-item>
-                                    </router-link>
-                                    <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
-                                        <el-menu-item index="1-2">
-                                            结算记录 
-                                        </el-menu-item>
-                                    </router-link>
-                                     <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
-                                        <el-menu-item index="1-3">
-                                            结算记录详情 
-                                        </el-menu-item>
-                                    </router-link>
-                                </el-menu-item-group>
-                            </el-submenu> -->
-                            <el-menu-item index="1">
-                              <i class="el-icon-setting"></i>
-                                <span slot="title">
-                                    <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
-                                        平台账单
-                                    </router-link>
-                                </span>
-                            </el-menu-item>
-                            <el-menu-item index="2">
-                              <i class="el-icon-menu"></i>
-                                <span slot="title">
-                                    <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
-                                         结算记录
-                                    </router-link>
-                                </span>
-                            </el-menu-item>
-                             <el-menu-item index="3">
-                              <i class="el-icon-menu"></i>
-                                <span slot="title">
-                                    <router-link  @click.native="Go_fun('选品')"  to="/ProductSelectList">
-                                         商品选择
-                                    </router-link>
-                                </span>
-                            </el-menu-item>
-                           <!--  <el-menu-item index="3">
-                              <i class="el-icon-setting"></i>
-                                <span slot="title">
-                                    <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
-                                       结算记录详情
-                                    </router-link>
-                                </span>
-                            </el-menu-item> -->
+                                        </router-link>
+                                    </span>
+                                </el-menu-item>
+                                <el-menu-item index="2">
+                                  <i class="el-icon-menu"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
+                                             结算记录
+                                        </router-link>
+                                    </span>
+                                </el-menu-item>
+                                 <!-- <el-menu-item index="3">
+                                  <i class="el-icon-menu"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('选品')"  to="/ProductSelectList">
+                                             商品选择
+                                        </router-link>
+                                    </span>
+                                </el-menu-item> -->
+                                <!--  <el-menu-item index="3">
+                                  <i class="el-icon-setting"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
+                                           结算记录详情
+                                        </router-link>
+                                    </span>
+                                </el-menu-item> -->
                           </el-menu>
 
                     </el-col>
@@ -204,4 +204,8 @@ export default {
   background: #EEEEEE;
 
 }
+ .main_left a {
+    color: #999999;
+}
+
 </style>
