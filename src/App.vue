@@ -8,9 +8,22 @@
 </template>
 
 <script>
+import { loginIntercept } from "./api/api";
 export default {
   name: 'app',
-  components: {
+  methods:{
+     init(){
+        loginIntercept().then((data) => {
+           let token = data.token
+            localStorage.setItem('token',token);
+        }).catch(message => {
+          this.$message.error("请求失败，请联系客服，失败码"+message);
+            this.loading=false
+        });
+     }
+  },
+  mounted(){
+    this.init()
   }
 }
 </script>

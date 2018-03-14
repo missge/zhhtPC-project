@@ -33,43 +33,43 @@ Vue.use(ElementUI)
 // })
 
 
-// router.beforeEach((to, from, next) => {
-//     //NProgress.start();
-//     // sessionStorage.removeItem('token');
-//     // if (to.path == '/login') {
+router.beforeEach((to, from, next) => {
+    //NProgress.start();
+    // sessionStorage.removeItem('token');
+    // if (to.path == '/login') {
 
-//     //     localStorage.removeItem('token');
+    //     localStorage.removeItem('token');
 
-//     // }
-//     //let token = sessionStorage.getItem('token');
+    // }
+    //let token = sessionStorage.getItem('token');
 
-//    let token = localStorage.getItem('token');
-//     if (!token) {
-//         // 检测url里是否存在token
-//         // let url = window.location.href;
-//         // let index = url.search(/token/) + 6;
-//         // if (index !== 5) {
-//         //     console.log(index)
-//         //     let str1 = url.substr(index);
-//         //     let end = str1.search(/&/)
-//         //     if (end !== -1) {
-//         //         str1 = str1.substr(0, end)
-//         //     }
-//         //     token = str1
-//             // window.localStorage.setItem('token', token);
-//         // }
-//     	// alert("1")
+   let token = localStorage.getItem('token');
+   console.log(token)
+    // if (!token) {
+        // 检测url里是否存在token
+        // let url = window.location.href;
+        // let index = url.search(/token/) + 6;
+        // if (index !== 5) {
+        //     console.log(index)
+        //     let str1 = url.substr(index);
+        //     let end = str1.search(/&/)
+        //     if (end !== -1) {
+        //         str1 = str1.substr(0, end)
+        //     }
+        //     token = str1
+            // window.localStorage.setItem('token', token);
+        // }
+    	// alert("1")
 
-//     }
-//     if (!token && to.path != '/Login') {
-//     	   next({path: '/login'})
-//     }
-//     else{
-//         next()	
-
-//     }
+    // }
+    if (token == 0 && to.path != '/') {
+    	 next({path: '/'})
+    }
+    else{
+        next()	
+    }
     
-// })
+})
 /* eslint-disable no-new */
 new Vue({
   // el: '#app',

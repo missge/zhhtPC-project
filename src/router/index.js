@@ -101,6 +101,35 @@ const routes = [
 				name:'选品列表',
 				component: resolve => require(["@/components/goods/ProductSelectList"], resolve)
 			},
+			{
+				path:'/RoleManagement',
+				name:'角色管理',
+				component: resolve => require(["@/components/system/RoleManagement"], resolve)
+			},{
+				path:'/RoleManaChange',
+				name:'角色级别',
+				component: resolve => require(["@/components/system/RoleManaChange"], resolve)
+			},
+			{
+				path:'/UserManagement',
+				name:'用户管理',
+				component: resolve => require(["@/components/system/UserManagement"], resolve)
+			},
+			{
+				path:'/UserManaChange',
+				name:'用户管理修改',
+				component: resolve => require(["@/components/system/UserManaChange"], resolve)
+			},
+			{
+				path:'/OperationLog',
+				name:'操作日志',
+				component: resolve => require(["@/components/system/OperationLog"], resolve)
+			},
+			{
+				path:'/FunctionLog',
+				name:'功能日志',
+				component: resolve => require(["@/components/system/FunctionLog"], resolve)
+			}
 		]
 	},
 	{

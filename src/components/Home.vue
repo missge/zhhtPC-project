@@ -9,10 +9,10 @@
                     <el-col :span="16" class="tools">
                         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"   background-color="#fff" text-color="#666666"  active-text-color="#1c7ffd">
                             <el-menu-item index="1" >对账结算</el-menu-item>
-                           <!--  <el-menu-item index="2">
-                                 订单管理
+                            <el-menu-item index="2">
+                                 系统维护
                             </el-menu-item>
-                            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">客户管理</a></el-menu-item> -->
+                            <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">客户管理</a></el-menu-item> -->
                         </el-menu>
                     </el-col>
                     <el-col :span="4" class="userinfo">
@@ -71,14 +71,40 @@
                                         </router-link>
                                     </span>
                                 </el-menu-item>
-                                 <!-- <el-menu-item index="3">
+                                 <el-menu-item index="3">
                                   <i class="el-icon-menu"></i>
                                     <span slot="title">
-                                        <router-link  @click.native="Go_fun('选品')"  to="/ProductSelectList">
-                                             商品选择
+                                        <router-link  @click.native="Go_fun('角色管理')"  to="/RoleManagement">
+                                             角色管理
                                         </router-link>
                                     </span>
-                                </el-menu-item> -->
+                                </el-menu-item>
+                                  <el-menu-item index="4">
+                                  <i class="el-icon-menu"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('用户管理')"  to="/UserManagement">
+                                             用户管理
+                                        </router-link>
+                                    </span>
+                                </el-menu-item>
+                                </el-menu-item>
+                                  <el-menu-item index="5">
+                                  <i class="el-icon-menu"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('操作日志')"  to="/OperationLog">
+                                             操作日志
+                                        </router-link>
+                                    </span>
+                                </el-menu-item>
+                                </el-menu-item>
+                                  <el-menu-item index="6">
+                                  <i class="el-icon-menu"></i>
+                                    <span slot="title">
+                                        <router-link  @click.native="Go_fun('功能日志')"  to="/FunctionLog">
+                                             功能日志
+                                        </router-link>
+                                    </span>
+                                </el-menu-item>
                                 <!--  <el-menu-item index="3">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
@@ -98,9 +124,6 @@
                             <el-breadcrumb-item>活动详情</el-breadcrumb-item>
                         </el-breadcrumb> -->
                          <router-view></router-view>
-                
-                  
-
                     </el-col>
                 </el-row>
             </el-col>
@@ -109,6 +132,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import { logon } from "../api/api";
 export default {
   name: 'HelloWorld',
   data () {
@@ -146,8 +170,14 @@ export default {
             this.userName = localStorage.getItem("userName")
         },
         submitForm() {
-           this.$router.push('/');
-        
+           logon().then((data) => {
+            if(data.code==1){
+               this.$router.push('/');
+            }
+          }).catch(message => {
+            this.$message.error("请求失败，请联系客服，失败码"+message);
+              this.loading=false
+          });
 
         }
   },

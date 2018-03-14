@@ -155,7 +155,6 @@
 				// )
 				getOrderBillInfo(this.tableList).then((data) => {
 					this.tableDatas=data.data
-					console.log(this.tableDatas)
 					this.billDetail=data.billDetail
 					this.totalCount=data.pageInfo.totalCount
 					this.loading=false

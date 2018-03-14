@@ -19,8 +19,10 @@ function pageJump(url) {
 //webpack.dev.conf.js修改url路径
 // let base = SERVER_BASE_URL;
 // let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
-let base = 'http://10.0.0.25:8088/wxmallPort/'
-
+// let base = 'http://192.168.1.148:8081/wxmallPort/'
+let base = 'http://10.0.0.35:8081/wxmallPort/'
+// export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
+export const localHostUrl='http://10.0.0.35:8081/wxmallPort/'
 
 let loginInstance = axios.create({
     baseURL: base
@@ -52,8 +54,7 @@ function formData(param) {
     }
     return data;
 }
-// export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
-export const localHostUrl='http://10.0.0.25:8088/wxmallPort/'
+
 
 export const mallId ='123307710000000'
 // 同下面
@@ -64,6 +65,14 @@ export const mallId ='123307710000000'
 // ).catch(function(error){
 //     console.log(error)
 // })
+//退出清除token
+ export const logon = params => {
+    return axios.post(`${base}logon.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+//是否存在token
+ export const loginIntercept = params => {
+    return axios.post(`${base}loginIntercept.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
 /***************************登录*********************************/
 export const requestLogin = params => {
     return loginInstance.post(`${base}loginInfo.json`, formData(params)).then(responseFilter);
@@ -103,4 +112,42 @@ export const getSettleManage = params => {
 //撤销结算单
 export const setCencelSett = params => {
     return loginInstance.post(`${base}cancelSett.json`,formData(params)).then(responseFilter);
+}
+/*************************系统维护***************************/
+// 用户管理列表
+export const getFindUserPost = params =>{
+     return axios.post(`${base}findUserPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//用户管理状态
+export const UserSelectStatus = params => {
+    return axios.post(`{base}`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//用户修改
+export const UserPostChange = params => {
+    return axios.post(`${base}editUserPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//用户删除
+export const UserPostDelete = params =>{
+    return axios.post(`${base}DeletUserPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//用户初始化
+export const UserPostInit = params =>{
+    return axios.post(`${base}UserupPassPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//角色列表
+export const getRoleUserPost = params =>{
+     return axios.post(`${base}findRolePost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//操作日志
+export const OperationLog = params => {
+    return axios.post(`${base}findOperatorsPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+//操作日志删除
+export const OperationLogDelete = params => {
+    return axios.post(`${base}deletOperatorsPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//功能日志
+export const FunctionLog = params => {
+    return axios.post(`${base}findFunctionsPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }
