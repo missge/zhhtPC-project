@@ -31,7 +31,7 @@
 				    <el-table-column   prop="status" label="状态">  </el-table-column>
 		            <el-table-column label="相关操作" >
 		          		<template slot-scope="scope" >
-	           				<el-button size="small" @click="changeFn(scope.row.userName)">修改</el-button>
+	           				<el-button size="small" @click="changeFn(scope.row.id)">修改</el-button>
 	           				<el-button  size="small"  type="danger" @click="deleteFn(scope.row.userName)">删除</el-button>
 	           			</template>
 		       		</el-table-column>
@@ -39,7 +39,6 @@
 				<el-pagination class="pagination"  @current-change="handleCurrentChange" background layout="prev, pager, next , jumper"  :current-page.sync="tableList.pageIndex" :total="totalCount" >
 			</el-pagination>
 		</div>
-		
 	</div>
 </template>
 <script>
@@ -99,8 +98,8 @@
 					 this.loading=false
 				})
 			},
-			changeFn(userName){
-				this.$router.push({path:'/RoleManaChange',query:{userName:userName}})
+			changeFn(id){
+				this.$router.push({path:'/RoleManaChange',query:{id:id}})
 			},
 			deleteFn(userName){
 				 this.$confirm('确定删除该用户?', '提示', {

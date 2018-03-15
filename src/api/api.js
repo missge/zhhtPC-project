@@ -134,6 +134,14 @@ export const UserPostDelete = params =>{
 export const UserPostInit = params =>{
     return axios.post(`${base}UserupPassPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
 }
+//角色修改获取数据
+export const getRolePostChange = params => {
+    return axios.post(`${base}editRoles.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
+//角色管理修改
+export const RolePostchange = params =>{
+    return axios.post(`${base}editRolesPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+}
 //角色列表
 export const getRoleUserPost = params =>{
      return axios.post(`${base}findRolePost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
