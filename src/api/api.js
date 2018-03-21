@@ -20,9 +20,9 @@ function pageJump(url) {
 // let base = SERVER_BASE_URL;
 // let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
 // let base = 'http://192.168.1.148:8081/wxmallPort/'
-let base = 'http://10.0.0.35:8081/wxmallPort/'
+let base = 'http://10.0.0.15:8081/wxmallPort/'
 // export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
-export const localHostUrl='http://10.0.0.35:8081/wxmallPort/'
+export const localHostUrl='http://10.0.0.15:8081/wxmallPort/'
 
 let loginInstance = axios.create({
     baseURL: base
@@ -122,7 +122,11 @@ export const getFindUserPost = params =>{
 export const UserSelectStatus = params => {
     return axios.post(`{base}`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
 }
-//用户修改
+//用户修改列表获取数据
+export const getChangeList = params => {
+    return axios.post(`${base}editUser.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
+} 
+//用户修改保存
 export const UserPostChange = params => {
     return axios.post(`${base}editUserPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
 }
@@ -134,6 +138,7 @@ export const UserPostDelete = params =>{
 export const UserPostInit = params =>{
     return axios.post(`${base}UserupPassPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
 }
+
 //角色修改获取数据
 export const getRolePostChange = params => {
     return axios.post(`${base}editRoles.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);

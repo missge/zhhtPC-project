@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<div>
 		<div class="FormFile">
 			<el-form :model="rolesList" :rules="rules" ref="rolesList" label-width="150px" class="demo-ruleForm">
@@ -39,7 +39,7 @@
 				  </el-form-item>
 	  			  <el-form-item label="权限" prop="resource">
 					   <el-tree
-						  :data="data2"
+						  :data="treeJson"
 						  show-checkbox
 						  default-expand-all
 						  node-key="id"
@@ -151,9 +151,10 @@
 		        }
 	        ],
 	        defaultProps: {
-	          children: 'children',
-	          label: 'label'
-	        }
+	          children: 'childModuleDTOs',
+	          label: 'name'
+	        },
+	        tableDatas:''
 	      };
 	    },
 	    methods: {
@@ -199,4 +200,4 @@
 		padding: 24px;
 	}
 	.FormFile .el-form-item__content{text-align:left;}
-</style>
+</style> -->
