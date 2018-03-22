@@ -105,16 +105,15 @@
                         // this.ruleForm.password=md5(this.ruleForm.password)
                         this.loading=true
                         requestLogin(this.ruleForm).then((data) => {
+                            console.log(data)
                             let token = data.token;
                            if(data.code==1){
                                 localStorage.setItem('token', token);
-                                this.$router.push('/PlatformBill');
+                                this.$router.push('/Home');
                                 localStorage.setItem('userName',this.ruleForm.userName);
-                                 console.log(localStorage.getItem('userName'))
-                                 localStorage.setItem("passWord", this.ruleForm.passWord);
-                           
-                                  console.log(localStorage.getItem('token'))
-                           }else{
+                                localStorage.setItem("passWord", this.ruleForm.passWord);
+                                
+                            }else{
                                 this.$confirm(data.descript, '提示', {
                                   confirmButtonText: '确定',
                                   cancelButtonText: '取消',

@@ -8,11 +8,13 @@
                     </el-col>
                     <el-col :span="16" class="tools">
                         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"   background-color="#fff" text-color="#666666"  active-text-color="#1c7ffd">
-                            <el-menu-item index="1" >对账结算</el-menu-item>
-                            <el-menu-item index="2">
-                                 系统维护
-                            </el-menu-item>
-                            <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">客户管理</a></el-menu-item> -->
+                           <template v-for="(items,parentIndex) in menuList">
+                                <el-menu-item :index="parentIndex+''" >
+                                    <span  v-for="(item,childIndex) in items.fatherModuleDTOs" :key="childIndex">
+                                          {{item.name}} 
+                                     </span> 
+                                </el-menu-item>
+                            </template>
                         </el-menu>
                     </el-col>
                     <el-col :span="4" class="userinfo">
@@ -30,32 +32,23 @@
             <el-col :span="24" class="main">
                 <el-row class="main_container">
                     <el-col :span="4" class="main_left">
-                        <el-menu   default-active="1"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"
-                            background-color="#132347" text-color="#999999" active-text-color="#ffffff" >
-                                <!--  <el-submenu index="1">
-                                    <template slot="title">
-                                        <i class="el-icon-menu"></i>
-                                        <span>对账结算</span>
-                                    </template>
-                                    <el-menu-item-group>
-                                       <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
-                                            <el-menu-item index="1-1"> 
-                                                平台账单
-                                            </el-menu-item>
-                                        </router-link>
-                                        <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
-                                            <el-menu-item index="1-2">
-                                                结算记录 
-                                            </el-menu-item>
-                                        </router-link>
-                                         <router-link  @click.native="Go_fun('结算记录详情')"  to="/SettleRecordDetail">
-                                            <el-menu-item index="1-3">
-                                                结算记录详情 
-                                            </el-menu-item>
-                                        </router-link>
-                                    </el-menu-item-group>
-                                </el-submenu> -->
-                                <el-menu-item index="1">
+                        <el-menu   :default-active="activeIndex"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"background-color="#132347" text-color="#999999" active-text-color="#ffffff" >
+                              <template v-for="(items,parentIndex) in menuList">
+                                <div v-for="(item,childIndex) in items.fatherModuleDTOs" v-if="item.id==idFlag">
+                                    <div v-for="(childItem,index) in item.childModuleDTOs" >
+                                        <el-menu-item :index="index+''" :key="index">
+                                            <i class="el-icon-setting"></i>
+                                            <span slot="title" >
+                                                <router-link   @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
+                                                    {{childItem.name}}
+                                                </router-link>
+                                            </span>
+                                        </el-menu-item> 
+                                   </div>
+                                </div>
+                                  
+                              </template>
+                               <!--  <el-menu-item index="1">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
                                         <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
@@ -63,7 +56,7 @@
                                         </router-link>
                                     </span>
                                 </el-menu-item>
-                                <el-menu-item index="2">
+                               <!--<el-menu-item index="2">
                                   <i class="el-icon-menu"></i>
                                     <span slot="title">
                                         <router-link  @click.native="Go_fun('结算记录')"  to="/SettleRecord">
@@ -104,7 +97,7 @@
                                              功能日志
                                         </router-link>
                                     </span>
-                                </el-menu-item>
+                                </el-menu-item> -->
                                 <!--  <el-menu-item index="3">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
@@ -132,20 +125,20 @@
 </template>
 <script>
 import Vue from 'vue'
-import { logon } from "../api/api";
+import { logon ,requestLogin} from "../api/api";
 export default {
   name: 'HelloWorld',
   data () {
-     // const item = {
-     //    date: '2016-05-02',
-     //    name: '王小虎',
-     //    address: '上海市普陀区金沙江路 1518 弄'
-     //  };
       return {
         // tableData: Array(20).fill(item)
-        activeIndex: '1',
-        userName:''
-     
+        activeIndex: '0',
+        userName:'',
+        ruleForm: {
+            userName: localStorage.getItem('userName'),
+            passWord: localStorage.getItem('passWord'),
+        },
+        menuList:[],
+        idFlag:''
       }
   },
   methods: {
@@ -157,7 +150,21 @@ export default {
         },
         //点击header
         handleSelect(key, keyPath) {
-            console.log(key, keyPath);
+            let arr=[]
+            this.menuList.forEach(function(items){
+                items.fatherModuleDTOs.forEach(function(item,index){
+                    // if(key=item){
+                        arr.push(item.id);
+                    // }
+                })
+            })
+            let that=this
+            arr.forEach(function(arrItem,index){
+                if(index==key){
+                    console.log(arrItem)
+                    that.idFlag=arrItem
+                }
+            })
         },
         onSubmit() {
             console.log('submit!');
@@ -166,8 +173,15 @@ export default {
            
         },
         getResource(){
-            console.log(localStorage.getItem("userName"))
             this.userName = localStorage.getItem("userName")
+            requestLogin(this.ruleForm).then((data) => {
+                 let token = data.token;
+                console.log(data.data)
+                this.menuList=data.data
+              }).catch(message => {
+                 this.$message.error("请求失败，请联系客服，失败码"+message);
+                 this.loading=false
+              });
         },
         submitForm() {
            logon().then((data) => {
@@ -237,5 +251,6 @@ export default {
  .main_left a {
     color: #999999;
 }
+
 
 </style>

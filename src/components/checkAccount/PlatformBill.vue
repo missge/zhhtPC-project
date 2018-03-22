@@ -167,7 +167,7 @@
 			handleCurrentChange(val) {
 				this.tableList.pageIndex=val
 				this.getTablelist()
-				console.log(this.tableList.pageIndex);
+				// console.log(this.tableList.pageIndex);
 	   			// console.log(`当前页: ${val}`);
 	        },
 			//搜索事件
@@ -232,7 +232,7 @@
 			 getSelectList(){
             	getSelectList({type:this.type}).then((data) => {
             		this.selectList=data.data
-					console.log(data)
+					// console.log(data)
 					this.loading=false
 				}).catch(message => {
 					this.$message.error("请求失败，请联系客服，失败码"+message);

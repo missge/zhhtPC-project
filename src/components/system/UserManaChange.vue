@@ -10,7 +10,7 @@
 				  </el-form-item>
 				  <el-form-item label="用户级别">
 				    <el-radio-group v-model="ruleForm.userLevel">
-				       <el-radio v-for="(items,key) in userLevel" :key='key'
+				       <el-radio v-for="(items,key) in userLevel" :key='key' @change="getRadioFn"
 					      :label="items.key"
 					      >{{items.value}}
 					   </el-radio>
@@ -20,7 +20,7 @@
 				    <el-input v-model="ruleForm.teleNo"></el-input>
 				  </el-form-item>
 				  <el-form-item label="状态">
-					    <el-select v-model="oldStatus" placeholder="请选择" >
+					    <el-select v-model="oldStatus" placeholder="请选择" @change="getStatus">
 						    <el-option
 						      v-for="item1 in selectList"
 						      :key="item1.key"
@@ -30,7 +30,7 @@
 						</el-select>
 				  </el-form-item>
 				 <el-form-item label="角色" >
-				    <el-checkbox-group v-model="checkedUser" :max="5">
+				    <el-checkbox-group v-model="checkedUser" :max="5" @change="getCheckFn">
 				      <el-checkbox v-for="Checkboxitem in checkboxList" :label="Checkboxitem.value" :key="Checkboxitem.key" >
 				      </el-checkbox>
 				    </el-checkbox-group>
@@ -56,7 +56,7 @@
 				 	 <el-input v-model="ruleForm.lastLoginTime " readonly></el-input>
 				  </el-form-item>
 				  <el-form-item>
-				    <el-button type="primary" @click="seveFn">保存</el-button>
+				    <el-button type="primary" @click="seveFn(ruleForm.status)">保存</el-button>
 				    <el-button >返回</el-button>
 				  </el-form-item>
 			</el-form>
@@ -115,20 +115,55 @@
 	    methods: {
 			getTablelist(){
 				getChangeList({userName:this.userName}).then((data) => {
-					console.log(data)
 					this.ruleForm=data.data
 					this.checkedUser=data.roleMap
 					this.checkboxList=data.dateInfo
 					this.userLevel=data.levelAll
+
+				  	let initStatus=data.data.status
+				  	let initKey=''
+					this.selectList.forEach(function(items){
+						if(items.key == initStatus){
+							initKey=items.value
+						}
+					})
+					this.oldStatus=initKey
 				}).catch(message => {
 					this.$message.error("请求失败，请联系客服，失败码"+message);
 					 this.loading=false
 				})
 			},
-			seveFn(){
+			seveFn(status){
 				UserPostChange(this.ruleForm).then((data)=>{
 					console.log(data)
 				})
+			},
+			getRadioFn(val){
+				this.ruleForm.userLevel=val
+			},
+			getStatus(val){
+
+				let key='';
+				this.selectList.forEach(function(items){
+					if(items.value==val){
+						key=items.key
+					}
+					
+				})
+				this.ruleForm.stutas=key
+			},
+			getCheckFn(val){
+				//遍历角色所有的值，遍历选择的值。相等，输出items.key
+				let checkArr=[]
+				this.checkboxList.forEach(function(items){
+					val.forEach(function(valItem){
+						if(items.value==valItem){
+							// console.log(items.key)
+							checkArr.push(items.key)
+						}
+					})
+				})
+				this.ruleForm.roleIds=checkArr
 			}
 			// submitForm(formName) {
 			// 	this.$refs[formName].validate((valid) => {
