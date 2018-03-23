@@ -64,7 +64,7 @@
 	</div>
 </template>
 <script>
-	import {getChangeList,UserPostChange} from '../../api/api.js';
+	import {getChangeList,UserPostChange,addUserList} from '../../api/api.js';
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
@@ -87,6 +87,7 @@
 	          ],
 	        },
 	        userName:this.$route.query.userName,
+	        AddOrChange:this.$route.query.AddOrChange,
 	        ruleForm:{
 	        	userName:'',
 	        	realName:'',
@@ -109,29 +110,34 @@
 				{value: "禁用", key: 2},
 				{value: "删除", key: 3}
 	        ],
-
 	      };
 	    },
 	    methods: {
 			getTablelist(){
-				getChangeList({userName:this.userName}).then((data) => {
-					this.ruleForm=data.data
-					this.checkedUser=data.roleMap
-					this.checkboxList=data.dateInfo
-					this.userLevel=data.levelAll
+				//标志是点击添加，还是修改按钮
+				if(this.AddOrChange=='change'){
+					getChangeList({userName:this.userName}).then((data) => {
+						this.ruleForm=data.data
+						this.checkedUser=data.roleMap
+						this.checkboxList=data.dateInfo
+						this.userLevel=data.levelAll
 
-				  	let initStatus=data.data.status
-				  	let initKey=''
-					this.selectList.forEach(function(items){
-						if(items.key == initStatus){
-							initKey=items.value
-						}
+					  	let initStatus=data.data.status
+					  	let initKey=''
+						this.selectList.forEach(function(items){
+							if(items.key == initStatus){
+								initKey=items.value
+							}
+						})
+						this.oldStatus=initKey
+					}).catch(message => {
+						this.$message.error("请求失败，请联系客服，失败码"+message);
+						 this.loading=false
 					})
-					this.oldStatus=initKey
-				}).catch(message => {
-					this.$message.error("请求失败，请联系客服，失败码"+message);
-					 this.loading=false
-				})
+				}else{
+					
+				}
+				
 			},
 			seveFn(status){
 				UserPostChange(this.ruleForm).then((data)=>{

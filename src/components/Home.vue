@@ -39,14 +39,14 @@
                           <template v-for="(items,parentIndex) in menuList">
                             <div v-for="(item,childIndex) in items.fatherModuleDTOs" >
                                 <div v-for="(childItem,index) in item.childModuleDTOs" v-if="childItem.sid==item.id && items.id==idFlag">
-                                    <el-menu-item :index="childIndex+'-'+index+''" :key="index">
-                                        <i class="el-icon-setting"></i>
-                                        <span slot="title" >
-                                            <router-link :class="'submenu-hook-'+childIndex+'-'+index"  @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
+                                    <router-link :class="'submenu-hook-'+childIndex+'-'+index"  @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
+                                        <el-menu-item :index="childIndex+'-'+index+''" :key="index">
+                                            <i class="el-icon-setting"></i>
+                                            <span slot="title" >
                                                 {{childItem.name}}
-                                            </router-link>
-                                        </span>
-                                    </el-menu-item> 
+                                            </span>
+                                        </el-menu-item> 
+                                    </router-link>
                                </div>
                             </div>
                           </template>

@@ -17,6 +17,7 @@
 		    <el-form-item label="姓名:">
 				<el-input v-model="tableList.userName" placeholder=""></el-input>
 			</el-form-item>
+
 	     	<div class="query_button">
 	      		<el-form-item>
 	                <el-button type="primary" @click="getSarch(tableList.realName,oldStatus,tableList.userName)" >查询</el-button>
@@ -24,6 +25,17 @@
 	      	</div>
 		</el-form>
 		<div class="table"> 
+				<el-row class="container">
+					<el-col :span='24' >
+						<el-row class="all-classify">
+							<el-col :span='22' >
+							</el-col>
+							<el-col :span='2'>
+								 <el-button type="success" size="mini" @click="changeFn(tableList.userName,'add')">添加</el-button>
+							</el-col>
+						</el-row>
+					</el-col>
+				</el-row>
 	            <el-table :data="tableDatas"  border style="width: 100%;"  v-loading="loading">
 				    <el-table-column   prop="userName" label="登录名称">  </el-table-column>
 				    <el-table-column   prop="realName" label="姓名">  </el-table-column>
@@ -31,7 +43,7 @@
 				    <el-table-column   prop="status" label="状态">  </el-table-column>
 		            <el-table-column label="相关操作" >
 		          		<template slot-scope="scope" >
-	           				<el-button size="small" @click="changeFn(scope.row.userName)">修改</el-button>
+	           				<el-button size="small" @click="changeFn(scope.row.userName,'change')">修改</el-button>
 	           				<el-button  size="small"  type="danger" @click="deleteFn(scope.row.userName)">删除</el-button>
 	           				<el-button  size="small"  type="info" @click="initFn(scope.row.userName)">
 	           					1
@@ -103,8 +115,14 @@
 					 this.loading=false
 				})
 			},
-			changeFn(userName){
-				this.$router.push({path:'/UserManaChange',query:{userName:userName}})
+			changeFn(userName,AddOrChange){
+				if(AddOrChange=='change'){
+					this.$router.push({path:'/UserManaChange',query:{userName:userName,AddOrChange:'change'}})
+				}else{
+					this.$router.push({path:'/UserManaChange',query:{AddOrChange:'add'}})
+
+				}
+
 			},
 			deleteFn(userName){
 				 this.$confirm('确定删除该用户?', '提示', {
