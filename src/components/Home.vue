@@ -10,9 +10,12 @@
                         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"   background-color="#fff" text-color="#666666"  active-text-color="#1c7ffd">
                            <template v-for="(items,parentIndex) in menuList">
                                 <el-menu-item :index="parentIndex+''" >
-                                    <span  v-for="(item,childIndex) in items.fatherModuleDTOs" :key="childIndex">
-                                          {{item.name}} 
-                                     </span> 
+                                    <!-- <span  v-for="(item,childIndex) in items.fatherModuleDTOs" :key="childIndex"> -->
+                                     <!-- </span>  -->
+                                     <span>
+                                          {{items.name}} 
+                                         
+                                     </span>
                                 </el-menu-item>
                             </template>
                         </el-menu>
@@ -33,21 +36,21 @@
                 <el-row class="main_container">
                     <el-col :span="4" class="main_left">
                         <el-menu   :default-active="activeIndex"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"background-color="#132347" text-color="#999999" active-text-color="#ffffff" >
-                              <template v-for="(items,parentIndex) in menuList">
-                                <div v-for="(item,childIndex) in items.fatherModuleDTOs" v-if="item.id==idFlag">
-                                    <div v-for="(childItem,index) in item.childModuleDTOs" >
-                                        <el-menu-item :index="index+''" :key="index">
-                                            <i class="el-icon-setting"></i>
-                                            <span slot="title" >
-                                                <router-link   @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
-                                                    {{childItem.name}}
-                                                </router-link>
-                                            </span>
-                                        </el-menu-item> 
-                                   </div>
-                                </div>
-                                  
-                              </template>
+                          <template v-for="(items,parentIndex) in menuList">
+                            <div v-for="(item,childIndex) in items.fatherModuleDTOs" >
+                                <div v-for="(childItem,index) in item.childModuleDTOs" v-if="childItem.sid==item.id && items.id==idFlag">
+                                    <el-menu-item :index="childIndex+'-'+index+''" :key="index">
+                                        <i class="el-icon-setting"></i>
+                                        <span slot="title" >
+                                            <router-link :class="'submenu-hook-'+childIndex+'-'+index"  @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
+                                                {{childItem.name}}
+                                            </router-link>
+                                        </span>
+                                    </el-menu-item> 
+                               </div>
+                            </div>
+                          </template>
+
                                <!--  <el-menu-item index="1">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
@@ -138,7 +141,8 @@ export default {
             passWord: localStorage.getItem('passWord'),
         },
         menuList:[],
-        idFlag:''
+        idFlag:'',
+        clickFlag:0
       }
   },
   methods: {
@@ -154,7 +158,7 @@ export default {
             this.menuList.forEach(function(items){
                 items.fatherModuleDTOs.forEach(function(item,index){
                     // if(key=item){
-                        arr.push(item.id);
+                        arr.push(item.sid);
                     // }
                 })
             })
@@ -170,7 +174,7 @@ export default {
             console.log('submit!');
         },
         Go_fun (str,fun_name) {
-           
+           this.clickFlag=1
         },
         getResource(){
             this.userName = localStorage.getItem("userName")
@@ -178,15 +182,30 @@ export default {
                  let token = data.token;
                 console.log(data.data)
                 this.menuList=data.data
+                    //  初始化菜单，显示第一个
+                  let arr=[]
+                   this.menuList.forEach(function(items){
+                        items.fatherModuleDTOs.forEach(function(item,index){
+                             arr.push(item.sid);
+                        })
+                    })
+                    let that=this
+                    arr.forEach(function(arrItem,index){
+                        if(index==0){
+                            that.idFlag=arrItem
+                        }
+                    })
               }).catch(message => {
                  this.$message.error("请求失败，请联系客服，失败码"+message);
                  this.loading=false
               });
+
         },
         submitForm() {
            logon().then((data) => {
             if(data.code==1){
                this.$router.push('/');
+                 localStorage.setItem('token', 0);
             }
           }).catch(message => {
             this.$message.error("请求失败，请联系客服，失败码"+message);
@@ -251,6 +270,8 @@ export default {
  .main_left a {
     color: #999999;
 }
-
+.main_left .is-active [class^=submenu-hook-]{
+    color:#fff;
+}
 
 </style>
