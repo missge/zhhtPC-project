@@ -14,8 +14,11 @@
     "element-ui": "^2.0.11",
     "js-base64": "^2.4.3",
     "js-md5": "^0.7.3",
+    "mint-ui": "^2.2.13",
+    "sortablejs": "^1.7.0",
     "url-search-params": "^0.10.0",
     "vue": "^2.5.2",
+    "vue-color": "^2.4.5",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

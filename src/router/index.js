@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import EditWebpage from '@/components/webpage/EditWebpage'
 // import Home from '@/components/Home'
 // import Login from '@/components/Login'
 // 公共组件
@@ -129,6 +130,10 @@ const routes = [
 				path:'/FunctionLog',
 				name:'功能日志',
 				component: resolve => require(["@/components/system/FunctionLog"], resolve)
+			},{
+				path:'/editWebpage',
+				name:'功能日志',
+				component: resolve => require(["@/components/webpage/EditWebpage"], resolve)
 			}
 		]
 	},

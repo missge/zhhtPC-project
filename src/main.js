@@ -5,16 +5,26 @@ import App from './App'
 import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
-import store from './store'
+// import store from './store'
+import store from './vuex/store'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
+import GlobalConfig from './GlobalConfig'
+import Mint from 'mint-ui';
+import Sortable from 'sortablejs' 
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true
 Vue.prototype.$axios = axios;
 Vue.prototype.$http = axios
+Vue.use(Mint)
 Vue.use(Vuex)
 Vue.use(ElementUI)
-
+Vue.directive('sortable', {
+  inserted: function (el, binding) {
+    new Sortable(el, binding.value || {})
+  }
+})
+Vue.prototype.global_config = GlobalConfig;
 // router.beforeEach((to, from, next) => {
 //     if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
 //         if (store.state.token) {  // 通过vuex state获取当前的token是否存在

@@ -48,4 +48,12 @@ export default {
 .fade-leave-active {
 	opacity: 0;
 }
+.app-index-custom {
+    background-color: #FFF!important;
+    border:0px!important;
+    border-radius:0px!important;
+    overflow: visible;
+    display: list-item!important;
+    line-height:normal;
+}
 </style>
