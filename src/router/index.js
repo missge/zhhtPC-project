@@ -134,6 +134,10 @@ const routes = [
 				path:'/editWebpage',
 				name:'功能日志',
 				component: resolve => require(["@/components/webpage/EditWebpage"], resolve)
+			},{
+				path:'/test',
+				name:'功能日志',
+				component: resolve => require(["@/components/test"], resolve)
 			}
 		]
 	},

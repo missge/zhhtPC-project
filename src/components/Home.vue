@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <el-row class="container">
+        <el-row class="container" style="  position: absolute; top: 0px; bottom: 0px; width: 100%;">
             <el-col :span="24" class="header">  
                 <el-row class="header_container">
                     <el-col :span="4" class="logo">
@@ -222,26 +222,40 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .wrapper{
-      position: relative;
+      /*position: relative;*/
+          position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
 }
 .header {
-    height: 80px;
-    position: absolute;
+       height: 80px;
+    /* position: absolute; */
     width: 100%;
     top: 0;
     left: 0;
     padding: 0 20px;
     z-index: 1;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: #fff
+    background: #fff;
   }
 .main{
-    display: block;
-    margin-top: 80px;
+      /* display: block; */
+    /* margin-top: 80px; */
+    /* position: absolute; */
+    /* top: 80px; */
+    /* background: #172850; */
+    background: #324057;
+    position: absolute;
+    top: 80px;
+    bottom: 0px;
+    overflow: hidden;
 }
 .main_container{    width: 100%;
     height: 100%;
-    position: fixed;}
+    /*position: fixed;*/
+  }
 .main_left,.main_right {
     height: 100%;
 }

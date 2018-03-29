@@ -12,6 +12,8 @@ import ElementUI from 'element-ui'
 import GlobalConfig from './GlobalConfig'
 import Mint from 'mint-ui';
 import Sortable from 'sortablejs' 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true
 Vue.prototype.$axios = axios;
@@ -19,6 +21,7 @@ Vue.prototype.$http = axios
 Vue.use(Mint)
 Vue.use(Vuex)
 Vue.use(ElementUI)
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.directive('sortable', {
   inserted: function (el, binding) {
     new Sortable(el, binding.value || {})

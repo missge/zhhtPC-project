@@ -3,7 +3,7 @@
   <div style="height : auto; width:30%; display:inline-block;float:left;">
       <Phone msg="story"></Phone>
   </div>
-  <div class="component-view"  style="height : auto;width:60%;display:inline-block;float:right;border-style:solid;border-color:#ff0000;margin:30px">
+  <div class="component-view"  style="background:#fff;height: auto;width:60%;display:inline-block;float:right;border-style:solid;border-color:#ff0000;margin:30px">
      <component v-bind:is="currentView"> </component>  
   </div>  
   <div class="xuanfu">

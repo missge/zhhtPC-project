@@ -28,4 +28,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 npm install --save js-base64
 npm install --save url-search-params
 npm install --save js-md5  md5加密
-
+npm install --save vue-color ---吸取颜色
+npm install sortablejs --save ----拖拽序列
+npm install vue-awesome-swiper --save   轮播

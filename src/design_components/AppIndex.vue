@@ -1,5 +1,5 @@
 <template>
-  <div class="page-navbar">
+  <div class="page-navbar" >
       <div style='background-color:#FFF;font-weight:900;text-align: center;height: 30px;  border-style:solid;border-color:#ff0000;'  @click="handleAdd()"><span style="color:black">点击添加</span></div>
       <div class="el-upload-list el-upload-list--picture-card list-group" style="margin:0px!important;background-color:#FFF" v-sortable="{ onUpdate: onUpdate }">
         
@@ -11,7 +11,7 @@
               <i class="el-icon-edit" @click="handleUpdate(item.id,item.type,$event)"></i>
             </span>
             <span class="el-upload-list__item-delete">
-              <i class="el-icon-delete2" @click="handleDel(item.id)"></i>
+              <i class="el-icon-delete2" @click="handleDel(item.id)">删除</i>
             </span>
             <span class="el-upload-list__item-delete">
               <i class="el-icon-plus" @click="handleAdd()"></i>
@@ -98,4 +98,3 @@ export default {
   }
 }
 </script>
-<!-- <style lang="scss" src="../assets/main.scss"></style> -->
