@@ -18,11 +18,11 @@ function pageJump(url) {
 }
 //webpack.dev.conf.js修改url路径
 // let base = SERVER_BASE_URL;
-let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
+// let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
 // let base = 'http://10.0.0.21:8081/wxmallPort/'
-// let base = 'http://10.0.0.15:8081/wxmallPort/'
-export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
-// export const localHostUrl='http://10.0.0.21:8081/wxmallPort/'
+let base = 'http://10.0.0.37:8080/wxmallPort/'
+// export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
+export const localHostUrl='http://10.0.0.37:8080/wxmallPort/'
 
 let loginInstance = axios.create({
     baseURL: base
@@ -142,6 +142,14 @@ export const UserPostDelete = params =>{
 export const UserPostInit = params =>{
     return axios.post(`${base}UserupPassPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
 }
+//用户添加获取数据
+export const getLevelList = params => {
+    return axios.post(`${base}createUsers.json`,qs.stringify(params),{emulateJSON:true})
+} 
+//用户添加数据
+export const setAddSave = params => {
+    return axios.post(`${base}createUserPost.json`,qs.stringify(params),{emulateJSON:true})
+} 
 
 //角色修改获取数据
 export const getRolePostChange = params => {

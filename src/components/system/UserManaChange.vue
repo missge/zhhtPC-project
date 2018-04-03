@@ -3,7 +3,9 @@
 		<div class="FormFile">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
 				  <el-form-item label="登录名" prop="userName">
-				 	 <el-input v-model="userName" readonly></el-input>
+				 	 <el-input v-model="userName" readonly v-if="AddOrChange == 'change'"></el-input>
+				 	 <el-input v-model="userName"  v-if="AddOrChange == 'add'"></el-input>
+				 	 <!-- <el-input v-model="userName"  :readonly="[AddOrChange ? 'change':'true','false']"></el-input> -->
 				  </el-form-item>
 				  <el-form-item label="真实姓名" prop="realName">
 				    <el-input v-model="ruleForm.realName"></el-input>
@@ -64,7 +66,7 @@
 	</div>
 </template>
 <script>
-	import {getChangeList,UserPostChange,addUserList} from '../../api/api.js';
+	import {getChangeList,UserPostChange,addUserList,getLevelList,setAddSave} from '../../api/api.js';
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
@@ -105,11 +107,24 @@
 		    userLevel:[],
 		    oldStatus:'',
 			selectList:[
-				{value: "全部", key: 0}, 
-				{value: "启用", key: 1}, 
-				{value: "禁用", key: 2},
-				{value: "删除", key: 3}
+				// {value: "全部", key: 0}, 
+				// {value: "启用", key: 1}, 
+				// {value: "禁用", key: 2},
+				// {value: "删除", key: 3}
 	        ],
+	        setRuleForm:{
+	        	userName:this.$route.query.userName,
+	        	realName:'',
+	        	userLevel:'',
+	        	organId:'',
+	        	MerId:'',
+	        	teleNo:'',
+	        	status  :'',
+				endTime:'',
+				begTime:'',
+				dlsFlag:'' ,
+				roleIds:''
+	        }
 	      };
 	    },
 	    methods: {
@@ -121,9 +136,9 @@
 						this.checkedUser=data.roleMap
 						this.checkboxList=data.dateInfo
 						this.userLevel=data.levelAll
-
 					  	let initStatus=data.data.status
 					  	let initKey=''
+					  	this.selectList=data.data.userStatus
 						this.selectList.forEach(function(items){
 							if(items.key == initStatus){
 								initKey=items.value
@@ -135,14 +150,35 @@
 						 this.loading=false
 					})
 				}else{
-
-
+					getLevelList({}).then((data) => {
+						this.checkboxList=data.data.dateInfo
+						this.userLevel=data.data.levelAll
+					  	let initStatus=data.data.userStatus
+					  	let initKey=''
+					  	this.selectList=data.data.userStatus
+						this.selectList.forEach(function(items){
+							if(items.key == initStatus){
+								initKey=items.value
+							}
+						})
+						this.oldStatus=initKey
+					})	
 					
 				}
 				
 			},
 			seveFn(status){
-				UserPostChange(this.ruleForm).then((data)=>{
+				this.setRuleForm.realName = this.ruleForm.realName
+				this.setRuleForm.userLevel = this.ruleForm.userLevel
+				this.setRuleForm.teleNo = this.ruleForm.teleNo
+				this.setRuleForm.status = status
+				this.setRuleForm.endTime = this.ruleForm.endTime
+				this.setRuleForm.begTime = this.ruleForm.begTime
+				this.setRuleForm.roleIds = this.ruleForm.roleIds
+
+
+
+				UserPostChange(this.setRuleForm).then((data)=>{
 					console.log(data)
 				})
 			},
