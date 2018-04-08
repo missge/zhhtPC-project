@@ -147,10 +147,10 @@ export default {
   },
   methods: {
         handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
         },
         handleClose(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
         },
         //点击header
         handleSelect(key, keyPath) {
@@ -165,7 +165,7 @@ export default {
             let that=this
             arr.forEach(function(arrItem,index){
                 if(index==key){
-                    console.log(arrItem)
+                    // console.log(arrItem)
                     that.idFlag=arrItem
                 }
             })
@@ -180,7 +180,7 @@ export default {
             this.userName = localStorage.getItem("userName")
             requestLogin(this.ruleForm).then((data) => {
                  let token = data.token;
-                console.log(data.data)
+                // console.log(data.data)
                 this.menuList=data.data
                     //  初始化菜单，显示第一个
                   let arr=[]

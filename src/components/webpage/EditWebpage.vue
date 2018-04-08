@@ -33,11 +33,6 @@
 import { mapState, mapActions,mapGetters } from 'vuex'
 import Phone from "../../design_components/phone"
 // import NProgress from 'nprogress'
-
-
-
-
-
 //for new design
 import SimplePictureForm from "../../design_components/new_design/simple_picture/form.vue"
 import SimplePictureTemplate from "../../design_components/new_design/simple_picture/template.vue"

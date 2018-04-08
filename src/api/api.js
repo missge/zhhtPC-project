@@ -150,7 +150,10 @@ export const getLevelList = params => {
 export const setAddSave = params => {
     return axios.post(`${base}createUserPost.json`,qs.stringify(params),{emulateJSON:true})
 } 
-
+//商户获取
+export const getAllMerch = params => {
+    return axios.post(`${base}getAllMerch.json`,qs.stringify(params),{emulateJSON:true})
+} 
 //角色修改获取数据
 export const getRolePostChange = params => {
     return axios.post(`${base}editRoles.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter);
@@ -175,4 +178,46 @@ export const OperationLogDelete = params => {
 //功能日志
 export const FunctionLog = params => {
     return axios.post(`${base}findFunctionsPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+/*************************设置***************************/
+//获取地区模板列表
+export const getAreaTempList = params => {
+    return axios.post(`${base}findAreaTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//删除地区模板列表
+export const delAreaTempList = params => {
+    return axios.post(`${base}deletTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//添加地区模板列表
+export const addAreaTemp = params => {
+    return axios.post(`${base}addSaveTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//修改地区模板列表
+export const editAreaTemp = params => {
+    return axios.post(`${base}editAreaTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+
+//获取商户参数列表findMerParams
+export const findMerParams = params => {
+    return axios.post(`${base}findMerParams.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//商户参数添加
+export const merParamsAddPost = params => {
+    return axios.post(`${base}merParamsAddPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+/*************************会员***************************/
+//获取会员信息列表
+export const findMembersPost = params => {
+    return axios.post(`${base}findMembersPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//批量导入会员
+export const batchUploadMember = params => {
+    return axios.post(`${base}batchUploadMember.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }

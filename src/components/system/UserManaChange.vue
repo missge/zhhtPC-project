@@ -31,6 +31,20 @@
 						    </el-option>
 						</el-select>
 				  </el-form-item>
+					<el-form-item label="发卡机构" prop="name" v-if="ruleForm.userLevel==0">
+					 	 <el-input v-model="organId" readonly></el-input>
+					</el-form-item>
+				   <el-form-item label="商户" v-if="ruleForm.userLevel!=0">
+					    <el-select v-model="merIdKey" placeholder="请选择" @change="getMerId">
+						    <el-option
+						      v-for="Merchitem in getMerch"
+						      :key="Merchitem.key"
+						      :label="Merchitem.label"
+						      :value="Merchitem.value" >
+						    </el-option>
+						</el-select>
+				  </el-form-item>
+
 				 <el-form-item label="角色" >
 				    <el-checkbox-group v-model="checkedUser" :max="5" @change="getCheckFn">
 				      <el-checkbox v-for="Checkboxitem in checkboxList" :label="Checkboxitem.value" :key="Checkboxitem.key" >
@@ -59,14 +73,14 @@
 				  </el-form-item>
 				  <el-form-item>
 				    <el-button type="primary" @click="seveFn(ruleForm.status)">保存</el-button>
-				    <el-button >返回</el-button>
+				    <el-button @click="returnFn">返回</el-button>
 				  </el-form-item>
 			</el-form>
 		</div>
 	</div>
 </template>
 <script>
-	import {getChangeList,UserPostChange,addUserList,getLevelList,setAddSave} from '../../api/api.js';
+	import {getChangeList,UserPostChange,addUserList,getLevelList,setAddSave,getAllMerch} from '../../api/api.js';
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
@@ -100,12 +114,16 @@
 	        	begTime:'',
 				endTime:'',
 				wrpass:'',
-				lastLoginTime:'' 	
+				lastLoginTime:'' ,
+				merId:''
+
 	        },//form表单必须是一个对象，否则会报错
 		    checkboxList:[],
 		    checkedUser:[],
 		    userLevel:[],
 		    oldStatus:'',
+		    merIdKey:'',//商户选中
+		    getMerch:[],
 			selectList:[
 				// {value: "全部", key: 0}, 
 				// {value: "启用", key: 1}, 
@@ -123,8 +141,23 @@
 				endTime:'',
 				begTime:'',
 				dlsFlag:'' ,
-				roleIds:''
-	        }
+				roleIds:'',
+				merId:''
+	        },
+	        addRuleForm:{
+	        	userName:'',
+	        	realName:'',
+	        	userLevel:'',
+	        	teleNo:'',
+	        	status  :'',
+				endTime:'',
+				begTime:'',
+				roleIds:'',
+				merId:'',
+				organId:''
+	        },
+	        organId:'发卡机构'
+
 	      };
 	    },
 	    methods: {
@@ -138,13 +171,14 @@
 						this.userLevel=data.levelAll
 					  	let initStatus=data.data.status
 					  	let initKey=''
-					  	this.selectList=data.data.userStatus
+					  	this.selectList=data.userStatus
 						this.selectList.forEach(function(items){
 							if(items.key == initStatus){
 								initKey=items.value
 							}
 						})
 						this.oldStatus=initKey
+
 					}).catch(message => {
 						this.$message.error("请求失败，请联系客服，失败码"+message);
 						 this.loading=false
@@ -162,31 +196,95 @@
 							}
 						})
 						this.oldStatus=initKey
-					})	
-					
+					})
 				}
+				//获取商户
+				getAllMerch({}).then((data) => {
+					// this.selectList.forEach(function(items){
+					// 		if(items.key == initStatus){
+					// 			initKey=items.value
+					// 		}
+					// 	})
+					// 	this.oldStatus=initKey
+					if(data.data.code==1){
+						// let initMerch=''
+						this.getMerch=data.data.dataInfo
+						// this.getMerch.forEach(function(item){
+						// 	if(item.key == initStatus){
+						// 		initMerch=item.value
+						// 	}
+						// })
+						// this.merIdKey=initMerch
+					}
+
+				})
 				
 			},
 			seveFn(status){
-				this.setRuleForm.realName = this.ruleForm.realName
-				this.setRuleForm.userLevel = this.ruleForm.userLevel
-				this.setRuleForm.teleNo = this.ruleForm.teleNo
-				this.setRuleForm.status = status
-				this.setRuleForm.endTime = this.ruleForm.endTime
-				this.setRuleForm.begTime = this.ruleForm.begTime
-				this.setRuleForm.roleIds = this.ruleForm.roleIds
+				if(this.AddOrChange=='change'){
+					this.setRuleForm.realName = this.ruleForm.realName
+					this.setRuleForm.userLevel = this.ruleForm.userLevel
+					this.setRuleForm.teleNo = this.ruleForm.teleNo
+					this.setRuleForm.status = this.ruleForm.stutas
+					this.setRuleForm.endTime = this.ruleForm.endTime
+					this.setRuleForm.begTime = this.ruleForm.begTime
+					this.setRuleForm.roleIds = this.ruleForm.roleIds
+					if(this.ruleForm.userLevel==0){
+						this.setRuleForm.organId = this.ruleForm.userLevel
+					}else{
+						this.setRuleForm.merId = this.ruleForm.merId
+					}
 
+					console.log()
+					UserPostChange(this.setRuleForm).then((data)=>{
+						if(data.code==1){
+							this.$message({
+					          message: '修改成功',
+					          type: 'success'
+					        });
+						}else{
+							this.$message.error(data.descript);
+						}
+					      this.$router.push('/UserManagement');
+					})
 
+				}else{
+					this.addRuleForm.userName=this.userName
+					this.addRuleForm.realName = this.ruleForm.realName
+					this.addRuleForm.userLevel = this.ruleForm.userLevel
+					this.addRuleForm.teleNo = this.ruleForm.teleNo
+					this.addRuleForm.status = 	this.ruleForm.stutas
+					this.addRuleForm.endTime = this.ruleForm.endTime
+					this.addRuleForm.begTime = this.ruleForm.begTime
+					this.addRuleForm.roleIds = this.ruleForm.roleIds
+					if(this.ruleForm.userLevel==0){
+						this.setRuleForm.organId = this.ruleForm.userLevel
+					}else{
+						this.setRuleForm.merId = this.ruleForm.merId
+					}
 
-				UserPostChange(this.setRuleForm).then((data)=>{
-					console.log(data)
-				})
+					setAddSave(this.addRuleForm).then((data)=>{
+						console.log(data)
+						if(data.data.code==1){
+							this.$message({
+					          message: '添加成功',
+					           type: 'success'
+					        });
+						}else{
+							this.$message.error(data.data.descript);
+						}
+					      this.$router.push('/UserManagement');
+
+					})
+				}
+			},
+			returnFn(){
+				this.$router.push('/UserManagement');
 			},
 			getRadioFn(val){
 				this.ruleForm.userLevel=val
 			},
 			getStatus(val){
-
 				let key='';
 				this.selectList.forEach(function(items){
 					if(items.value==val){
@@ -195,6 +293,16 @@
 					
 				})
 				this.ruleForm.stutas=key
+			},
+			getMerId(val){
+				let MerIdkey='';
+				this.getMerch.forEach(function(items){
+					if(items.value==val){
+						MerIdkey=items.key
+					}
+				})
+				this.ruleForm.merId=MerIdkey
+
 			},
 			getCheckFn(val){
 				//遍历角色所有的值，遍历选择的值。相等，输出items.key

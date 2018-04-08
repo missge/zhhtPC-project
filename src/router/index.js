@@ -138,6 +138,26 @@ const routes = [
 				path:'/test',
 				name:'功能日志',
 				component: resolve => require(["@/components/test"], resolve)
+			},{
+				path:'/AreaTemp',
+				name:'地区模板',
+				component: resolve => require(["@/components/settings/AreaTemp"], resolve)
+			},{
+				path:'/AreaManage',
+				name:'地区列表',
+				component: resolve => require(["@/components/settings/AreaManage"], resolve)
+			},{
+				path:'/SystemParameter',
+				name:'点餐系统参数',
+				component: resolve => require(["@/components/settings/SystemParameter"], resolve)
+			},{
+				path:'/MemberList',
+				name:'会员信息管理',
+				component: resolve => require(["@/components/member/MemberList"], resolve)
+			},{
+				path:'/ImportMember',
+				name:'添加会员信息',
+				component: resolve => require(["@/components/member/ImportMember"], resolve)
 			}
 		]
 	},
