@@ -18,11 +18,11 @@ function pageJump(url) {
 }
 //webpack.dev.conf.js修改url路径
 // let base = SERVER_BASE_URL;
-// let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
+let base = 'http://wxmall.dealreal.com.cn/wxmallPort/'
 // let base = 'http://10.0.0.21:8081/wxmallPort/'
-let base = 'http://10.0.0.37:8080/wxmallPort/'
-// export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
-export const localHostUrl='http://10.0.0.37:8080/wxmallPort/'
+// let base = 'http://10.0.0.37:8080/wxmallPort/'
+export const localHostUrl='http://wxmall.dealreal.com.cn/wxmallPort/'
+// export const localHostUrl='http://10.0.0.37:8080/wxmallPort/'
 
 let loginInstance = axios.create({
     baseURL: base
@@ -185,13 +185,18 @@ export const getAreaTempList = params => {
     return axios.post(`${base}findAreaTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }
 
+//获取城市列表
+export const getfindAreaCity = params => {
+    return axios.post(`${base}findAreaCity.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
 //删除地区模板列表
 export const delAreaTempList = params => {
     return axios.post(`${base}deletTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }
 
 //添加地区模板列表
-export const addAreaTemp = params => {
+export const addSaveTemp = params => {
     return axios.post(`${base}addSaveTemp.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }
 
@@ -220,4 +225,31 @@ export const findMembersPost = params => {
 //批量导入会员
 export const batchUploadMember = params => {
     return axios.post(`${base}batchUploadMember.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//会员信息详情
+export const membersDetailPost = params => {
+    return axios.post(`${base}membersDetailPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//饭卡明细
+export const memMealCardDetail = params => {
+    return axios.post(`${base}memMealCardDetail.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//会员信息设为餐厅/商户
+export const memAddMerId = params => {
+    return axios.post(`${base}memAddMerId.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+//发送站内信息
+export const membersSendInfo = params => {
+    return axios.post(`${base}membersSendInfo.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
+}
+
+/*************************客户***************************/
+
+//客户信息列表
+export const findMerchPost = params => {
+    return axios.post(`${base}findMerchPost.json`,qs.stringify(params),{emulateJSON:true}).then(responseFilter)
 }

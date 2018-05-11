@@ -155,9 +155,17 @@ const routes = [
 				name:'会员信息管理',
 				component: resolve => require(["@/components/member/MemberList"], resolve)
 			},{
-				path:'/ImportMember',
-				name:'添加会员信息',
-				component: resolve => require(["@/components/member/ImportMember"], resolve)
+				path:'/MemberInfo',
+				name:'会员信息详情',
+				component: resolve => require(["@/components/member/MemberInfo"], resolve)
+			},{
+				path:'/CustomerList',
+				name:'客户管理',
+				component: resolve => require(["@/components/customer/CustomerList"], resolve)
+			},{
+				path:'/CustomerManage',
+				name:'编辑客户',
+				component: resolve => require(["@/components/customer/CustomerManage"], resolve)
 			}
 		]
 	},

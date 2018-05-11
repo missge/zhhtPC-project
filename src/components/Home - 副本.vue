@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
-        <div class="container">
-            <div class="header">  
+        <el-row class="container" style="  position: absolute; top: 0px; bottom: 0px; width: 100%;">
+            <el-col :span="24" class="header">  
                 <el-row class="header_container">
                     <el-col :span="4" class="logo">
                         <img class="menu-img" src="../assets/img/logo.png" width="180px" height="50px" alt="">
@@ -31,13 +31,12 @@
                         </el-menu>
                     </el-col>
                 </el-row>
-            </div>
-            <div class="main">
-                <div class="main_container">
-                    <div class="main_left">
-                  
+            </el-col>
+            <el-col :span="24" class="main">
+                <el-row class="main_container">
+                    <el-col :span="4" class="main_left">
                         <el-menu   :default-active="activeIndex"  class="el-menu-vertical-demo" @open="handleOpen"  @close="handleClose"background-color="#132347" text-color="#999999" active-text-color="#ffffff" >
-                         <!--  <template v-for="(items,parentIndex) in menuList">
+                          <template v-for="(items,parentIndex) in menuList">
                             <div v-for="(item,childIndex) in items.fatherModuleDTOs" >
                                 <div v-for="(childItem,index) in item.childModuleDTOs" v-if="childItem.sid==item.id && items.id==idFlag">
                                     <router-link :class="'submenu-hook-'+childIndex+'-'+index"  @click.native="Go_fun(childItem.name)"  :to="childItem.linkAddr">
@@ -50,52 +49,16 @@
                                     </router-link>
                                </div>
                             </div>
-                          </template> -->
+                          </template>
 
-                                <el-menu-item index="1">
+                               <!--  <el-menu-item index="1">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
-                                        <router-link  @click.native="Go_fun('地区模板')"  to="/AreaTemp">
-                                            地区模板
+                                        <router-link  @click.native="Go_fun('账户查询')"  to="/PlatformBill">
+                                            平台账单
                                         </router-link>
                                     </span>
                                 </el-menu-item>
-                                <el-menu-item index="2">
-                                  <i class="el-icon-setting"></i>
-                                    <span slot="title">
-                                        <router-link  @click.native="Go_fun('点餐系统参数')"  to="/SystemParameter">
-                                            点餐系统参数
-                                        </router-link>
-                                    </span>
-                                </el-menu-item>
-                                <el-menu-item index="3">
-                                  <i class="el-icon-setting"></i>
-                                    <span slot="title">
-                                        <router-link  @click.native="Go_fun('会员信息管理')"  to="/MemberList">
-                                            会员信息管理
-                                        </router-link>
-                                    </span>
-                                </el-menu-item>
-
-                                <el-menu-item index="3">
-                                  <i class="el-icon-setting"></i>
-                                    <span slot="title">
-                                        <router-link  @click.native="Go_fun('客户管理')"  to="/CustomerList">
-                                            客户管理
-                                        </router-link>
-                                    </span>
-                                </el-menu-item>
-
-                                </el-menu-item>
-                                  <el-menu-item index="4">
-                                  <i class="el-icon-menu"></i>
-                                    <span slot="title">
-                                        <router-link  @click.native="Go_fun('用户管理')"  to="/UserManagement">
-                                             用户管理
-                                        </router-link>
-                                    </span>
-                                </el-menu-item>
-
                                <!--<el-menu-item index="2">
                                   <i class="el-icon-menu"></i>
                                     <span slot="title">
@@ -137,7 +100,7 @@
                                              功能日志
                                         </router-link>
                                     </span>
-                                </el-menu-item>
+                                </el-menu-item> -->
                                 <!--  <el-menu-item index="3">
                                   <i class="el-icon-setting"></i>
                                     <span slot="title">
@@ -148,24 +111,24 @@
                                 </el-menu-item> -->
                           </el-menu>
 
-                    </div>
-                    <div class="main_right content">          
+                    </el-col>
+                    <el-col :span="20" class="main_right content">
               <!--           <el-breadcrumb separator="/" >
                             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                             <el-breadcrumb-item>活动管理</el-breadcrumb-item>
                             <el-breadcrumb-item>活动列表</el-breadcrumb-item>
                             <el-breadcrumb-item>活动详情</el-breadcrumb-item>
                         </el-breadcrumb> -->
-                          <router-view></router-view>
-                    </div>
-                </div>
-            </div>
-        </div>
+                         <router-view></router-view>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
     </div>
 </template>
 <script>
 import Vue from 'vue'
-import { logon ,requestLogin,getAreaTempList} from "../api/api";
+import { logon ,requestLogin} from "../api/api";
 export default {
   name: 'HelloWorld',
   data () {
@@ -184,10 +147,10 @@ export default {
   },
   methods: {
         handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
         },
         handleClose(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
         },
         //点击header
         handleSelect(key, keyPath) {
@@ -202,7 +165,7 @@ export default {
             let that=this
             arr.forEach(function(arrItem,index){
                 if(index==key){
-                    console.log(arrItem)
+                    // console.log(arrItem)
                     that.idFlag=arrItem
                 }
             })
@@ -215,9 +178,9 @@ export default {
         },
         getResource(){
             this.userName = localStorage.getItem("userName")
-              requestLogin(this.ruleForm).then((data) => {
+            requestLogin(this.ruleForm).then((data) => {
                  let token = data.token;
-                console.log(data.data)
+                // console.log(data.data)
                 this.menuList=data.data
                     //  初始化菜单，显示第一个
                   let arr=[]
@@ -259,51 +222,46 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .wrapper{
-  position: relative;
-      min-width: 1280px;
-    max-width: 1680px;
-    overflow: hidden;
-}
-
-.container{
-  height: 100%;
-  padding-top:80px;
-}
-
-.container .el-menu{
-  border: none;
+      /*position: relative;*/
+          position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
 }
 .header {
-    height: 80px;
-    position: absolute;
+       height: 80px;
+    /* position: absolute; */
     width: 100%;
     top: 0;
     left: 0;
     padding: 0 20px;
     z-index: 1;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: #fff
+    background: #fff;
   }
 .main{
-    display: block;
-    /*margin-top: 80px;*/
-    height: 100%;
+      /* display: block; */
+    /* margin-top: 80px; */
+    /* position: absolute; */
+    /* top: 80px; */
+    /* background: #172850; */
+    background: #324057;
+    position: absolute;
+    top: 80px;
+    bottom: 0px;
+    overflow: hidden;
 }
-.main_container{    
-    width: 100%;
+.main_container{    width: 100%;
     height: 100%;
-    display: flex;
     /*position: fixed;*/
-}
+  }
 .main_left,.main_right {
-    /*height: 100%;*/
+    height: 100%;
 }
 .main_left .router-link-active,.main_left a{color: #fff}
 .main_left{
-      background: #172850;
-      width: 220px;
-      padding-bottom: 86px;
-      overflow: auto;
+  background: #172850;
 }
 
 
@@ -318,23 +276,14 @@ export default {
 
 
 .main_right{
-  overflow: auto;
+  overflow: scroll;
   padding-bottom: 60px;
   background: #EEEEEE;
-  flex-grow: 1;
-      width: 0;
 
 }
-
-.main_right_content{
-  /*padding: 20px;*/
-  /*background: #fff;*/
-}
-
  .main_left a {
     color: #999999;
 }
-
 .main_left .is-active [class^=submenu-hook-]{
     color:#fff;
 }

@@ -1,23 +1,23 @@
 <template>
 	<div>
 		<div class="AreaFormFile">
-			<el-form ref="areaform" :model="areaform" class="demo-ruleForm el-form-item__content">
-				<el-form-item label="模板名称:" >
+			<el-form :ref="areaform" :model="areaform" :rules="rules" class="demo-ruleForm el-form-item__content">
+				<el-form-item label="模板名称:" prop="name">
 					<el-input v-model="areaform.name" placeholder=""></el-input>
 				</el-form-item>
 
 				<div><span>地区选择：</span></div>
 				<el-form-item prop="zzs" >
-					<div><span>直辖市：</span></div>
+					<div class="lable"><span>直辖市：</span></div>
 					<el-checkbox-group v-model="areaform.zzs">
 					   <el-checkbox v-for="(item,index) in zzs" :key="index" :label="item.code">{{item.name}}</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
 
 				<el-form-item prop="qts">
-					<div><span>省　市：</span></div>
+					<div class="lable"><span>省　市：</span></div>
 					<div v-for="items in qts">
-						<el-checkbox :label="items.code" :indeterminate="items.indeterminate" v-model="items.checkAllState"  @change="handleCheckAllChange(items,'qts',items.checkAllState)">{{items.name}}</el-checkbox>
+						<el-checkbox class="provinces" :label="items.code" :indeterminate="items.indeterminate" v-model="items.checkAllState"  @change="handleCheckAllChange(items,'qts',items.checkAllState)">{{items.name}}</el-checkbox>
 						<el-checkbox-group v-model="areaform.qts" @change="handleCheckedCitiesChange(items,'qts')">
 					   		<el-checkbox v-for="(item,index) in items.citys" :key="index" :label="item.code">{{item.name}}</el-checkbox>
 						</el-checkbox-group>
@@ -25,9 +25,9 @@
 				</el-form-item>
 
 				<el-form-item prop="zzq">
-					<div><span>自治区：</span></div>
+					<div class="lable"><span>自治区：</span></div>
 					<div v-for="items in zzq">
-						<el-checkbox :label="items.code" :indeterminate="items.indeterminate" v-model="items.checkAllState"  @change="handleCheckAllChange(items,'zzq',items.checkAllState)">{{items.name}}</el-checkbox>
+						<el-checkbox class="provinces" :label="items.code" :indeterminate="items.indeterminate" v-model="items.checkAllState"  @change="handleCheckAllChange(items,'zzq',items.checkAllState)">{{items.name}}</el-checkbox>
 						<el-checkbox-group v-model="areaform.zzq"  @change="handleCheckedCitiesChange(items,'zzq')">
 					   		<el-checkbox v-for="(item,index) in items.citys" :key="index" :label="item.code">{{item.name}}</el-checkbox>
 						</el-checkbox-group>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-	import {addAreaTemp,editAreaTemp} from '../../api/api.js';
+	import {getfindAreaCity,editAreaTemp,addSaveTemp} from '../../api/api.js';
 	import qs from 'qs'
 	import Vue from 'vue'
 	import router from '@/router'
@@ -136,6 +136,12 @@
 	export default {
 	    data() {
 	      return {
+	      	rules: {
+			  name: [
+			  	{ required: true, message: '请输入模板名称', trigger: 'blur' },
+			  ]
+	        },
+	      	id:this.$route.query.id,
 	      	AddOrChange:this.$route.query.AddOrChange,
         	zzs:[],
         	qts:[],
@@ -149,11 +155,22 @@
 	      };
 	    },
 	    methods: {
+	    	getCityOptions(){
+	    		getfindAreaCity().then((data) => {
+					// this.getCityOptions(data.data);
+					this.getDataList(data);
+					this.getTablelist();
+				}).catch(message => {
+					this.$message.error("请求失败，请联系客服，失败码"+message);
+				})
+	    	},
 			getTablelist(){
 				//标志是点击添加，还是修改按钮
 				if(this.AddOrChange=='change'){
-					getChangeList().then((data) => {
-						
+					editAreaTemp({id:this.id}).then((data) => {
+						console.log(data)
+
+						this.areaform.name = data.areaTemplatesName;
 					}).catch(message => {
 						this.$message.error("请求失败，请联系客服，失败码"+message);
 						 this.loading=false
@@ -162,25 +179,58 @@
 					
 				}
 			},
-			seveFn(data){
-				// UserPostChange(this.ruleForm).then((data)=>{
-				// 	console.log(data)
-				// })
-				console.log(data)
+			seveFn(formName){
+				this.$refs[formName].validate((valid,object) => {
+			    	 if (valid) {
+			    	 	let temForm = {}
+			    	 	temForm.tempName = formName.name;
+			    	 	temForm.strTemp = formName.zzs.concat(formName.qts,formName.zzq).join('-')
+			    	 	if(this.AddOrChange=='change'){
+							editAreaTemp(temForm).then((data)=>{
+								if(data.code==1){
+									this.$message({
+							          message: '修改成功',
+							          type: 'success'
+							        });
+							        this.$router.push('/AreaTemp');
+								}else{
+									this.$message.error(data.descript);
+								}
+							})
+
+						}else{
+							addSaveTemp(temForm).then((data)=>{
+								if(data.code==1){
+									this.$message({
+							          message: '添加成功',
+							           type: 'success'
+							        });
+							        this.$router.push('/AreaTemp');
+								}else{
+									this.$message.error(data.descript);
+								}
+							})
+						}
+
+			          } else {
+			            this.$message.error(object.name[0].message);
+			            return false;
+			          }
+		        });
 			},
 			handleCheckAllChange(pra,pra1,state) {
 				let opt = state ? 'addAll' : 'deleteAll';
 				let checkedArr = this.getCitydata(pra,this.areaform[pra1],opt);
 		        this.areaform[pra1] = checkedArr;
 		        pra.indeterminate = false;
-		        console.log(this.areaform[pra1]);
+		        
 		    },
 		    handleCheckedCitiesChange(pra,pra1) {
 		    	let checkedArr = this.getCitydata(pra,this.areaform[pra1],'add')
 		        let checkedCount = checkedArr.length;
 		        pra.checkAllState = checkedCount === pra.citys.length;
 		        pra.indeterminate = checkedCount > 0 && checkedCount < pra.citys.length;
-		        console.log(this.areaform[pra1]);
+		        
 		    },
 		    getCitydata(pra,data,opt){
 		    	// 获取数据的值
@@ -220,20 +270,33 @@
 		    	return tempArr;
 			},
 		    getDataList(data){
-		    	let tempdata = data;
+
+		    	let provinces=data.data;
+		    	let citys = data.citys;
 		    	let zzs = [],zzq = [],qts = [];
 
-		    	tempdata.map(function(d){
-		    		switch(d.areaType){
-		    			case '1':
+		    	provinces.map(function(p){
+		    		p.citys = [];
+		    		
+		    		citys.map(function(c){
+
+		    			if(p.code === c.provinceCode){
+		    				p.citys.push(c)
+		    			}
+		    		});
+		    	});
+
+		    	provinces.map(function(d){
+		    		switch(d.IsDirect){
+		    			case '0':
 		    				zzs.push(d);
 		    				break;
-		    			case '2':
+		    			case '1':
 		    				d.checkAllState = false;
 		    				d.indeterminate = false;
 		    				qts.push(d);
 		    				break;
-		    			case '3':
+		    			case '2':
 		    				zzq.push(d);
 		    				break;
 		    		}
@@ -246,7 +309,8 @@
 	    },
 	    mounted(){
 	    	//cityOptions从接口中调数据
-	    	this.getDataList(cityOptions);
+	    	this.getCityOptions();
+
 	    }
  	}
 </script>
@@ -261,6 +325,28 @@
 	}
 	.AreaFormFile .el-form-item__content{text-align:left;}
 	.AreaFormFile .el-form-item {
-    	margin-bottom: 0;
+    	/*margin-bottom: 0;*/
+	}
+
+	.AreaFormFile .provinces .el-checkbox__label{
+		font-weight: bold;
+		font-size: 14px
+	}
+
+	.AreaFormFile .provinces.el-checkbox:first-child{
+		margin-left: 0px;
+	}
+
+	.AreaFormFile .el-checkbox__label{
+		font-size: 12px
+	}
+
+	.AreaFormFile .lable>span{
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.AreaFormFile .el-checkbox:first-child {
+    	margin-left: 30px;
 	}
 </style>

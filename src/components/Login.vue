@@ -98,12 +98,13 @@
         },
         methods: {
             submitForm(formName) {
-                // localStorage.setItem('token', 0);
-                // const self = this;
+                localStorage.setItem('token', 0);
+                const self = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // this.ruleForm.password=md5(this.ruleForm.password)
                         this.loading=true
+                        this.$router.push('/Home');
                         requestLogin(this.ruleForm).then((data) => {
                             console.log(data)
                             let token = data.token;
@@ -129,22 +130,22 @@
                            this.$message.error("请求失败，请联系客服，失败码"+message);
                            this.loading=false
                         });
-                        // localStorage.setItem('ms_username',self.ruleForm.username);
-                        // console.log(localStorage.getItem('ms_username'))
+                        localStorage.setItem('ms_username',self.ruleForm.username);
+                        console.log(localStorage.getItem('ms_username'))
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
-            // login(){
-            //     this.$store.state.setToken=true//改变token状态
-            //     console.log(this.$store.state.setToken)
-            //     let redirect = decodeURIComponent(this.$route.query.redirect || '/'); 
-            //     this.$router.push({
-            //        path: redirect
-            //     })
-            // }
+            login(){
+                this.$store.state.setToken=true//改变token状态
+                console.log(this.$store.state.setToken)
+                let redirect = decodeURIComponent(this.$route.query.redirect || '/'); 
+                this.$router.push({
+                   path: redirect
+                })
+            }
         },
         mounted(){
         }

@@ -1,21 +1,18 @@
 <template>
 	<div>
 		<div class="table"> 
-				<el-row class="container">
-					<el-col :span='24' >
-						<el-row class="all-classify">
-							<el-col :span='22' >
-							</el-col>
-							<el-col :span='2'>
-								 <el-button type="success" size="mini" @click="changeFn(tableList.id,'add')">添加</el-button>
-							</el-col>
-						</el-row>
-					</el-col>
-				</el-row>
+			<div class="area_table">
+				<div class="container">
+					<el-button type="success" size="mini" @click="changeFn(tableList.id,'add')">添加</el-button>	
+				</div>
 	            <el-table :data="tableDatas"  border style="width: 100%;"  v-loading="loading">
-				    <el-table-column  prop="userName" label="模板名称">  </el-table-column>
-				    <el-table-column  prop="realName" label="地	区">  </el-table-column>
-		            <el-table-column label="相关操作" >
+				    <el-table-column width="180"  prop="tempName" label="模板名称">  </el-table-column>
+				    <el-table-column  prop="operations" label="地	区">
+				    	<template slot-scope="scope">
+					        <span size="medium" v-html="scope.row.operations">{{scope.row.operations}}</span>  
+				      	</template>
+        			</el-table-column>
+		            <el-table-column width="180" label="相关操作" >
 		          		<template slot-scope="scope" >
 	           				<el-button size="small" @click="changeFn(scope.row.id,'change')">修改</el-button>
 	           				<el-button  size="small"  type="danger" @click="deleteFn(scope.row.id)">删除</el-button>
@@ -24,6 +21,7 @@
 				</el-table>
 				<el-pagination class="pagination"  @current-change="handleCurrentChange" background layout="prev, pager, next , jumper"  :current-page.sync="tableList.pageIndex" :total="totalCount" >
 			</el-pagination>
+			</div>
 		</div>
 		
 	</div>
@@ -45,7 +43,6 @@
 			}
 		},
 		methods:{
-		
 			//点击哪页触发的时间
 			handleCurrentChange(val) {
 				this.tableList.pageIndex=val
@@ -102,3 +99,14 @@
 		}
 	}
 </script>
+<style>
+	.container{
+		padding-bottom: 15px;
+		text-align: right;
+	}
+
+	.area_table{
+		padding: 20px;
+		padding-bottom: 0;
+	}
+</style>
