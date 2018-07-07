@@ -31,7 +31,7 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-<<<<<<< HEAD
+``` bash
 # npm i mint-ui --save
 # npm install --save js-base64
 # npm install --save url-search-params
@@ -39,7 +39,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # npm install --save vue-color ---吸取颜色
 # npm install sortablejs --save ----拖拽序列
 # npm install vue-awesome-swiper --save   轮播
-=======
+```
 
 
 >>>>>>> da98a5b73d8a2d1fddc798bc44aec6d8a6a30c31
