@@ -32,13 +32,13 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 <<<<<<< HEAD
-npm i mint-ui --save
-npm install --save js-base64
-npm install --save url-search-params
-npm install --save js-md5  md5加密
-npm install --save vue-color ---吸取颜色
-npm install sortablejs --save ----拖拽序列
-npm install vue-awesome-swiper --save   轮播
+# npm i mint-ui --save
+# npm install --save js-base64
+# npm install --save url-search-params
+# npm install --save js-md5  md5加密
+# npm install --save vue-color ---吸取颜色
+# npm install sortablejs --save ----拖拽序列
+# npm install vue-awesome-swiper --save   轮播
 =======
 
 
