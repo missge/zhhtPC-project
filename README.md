@@ -40,6 +40,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # npm install sortablejs --save ----拖拽序列
 # npm install vue-awesome-swiper --save   轮播
 ```
-
+![Image text](https://github.com/missge/zhhtPC-project/blob/master/src/assets/img/logo.png)
 
 >>>>>>> da98a5b73d8a2d1fddc798bc44aec6d8a6a30c31
